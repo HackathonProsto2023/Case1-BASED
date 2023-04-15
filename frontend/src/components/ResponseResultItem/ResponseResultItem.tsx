@@ -1,13 +1,14 @@
 import React from "react";
 import "./ResponseResultItemStyle.css"
+import {Link} from "react-router-dom";
 
-interface result {
+interface props {
     vacancy: string
     isAccepted: string
     comment: string
 }
 
-const ResponseResultItem = ({vacancy, comment, isAccepted}: result) => {
+const ResponseResultItem = ({vacancy, comment, isAccepted}: props) => {
     return (
         <div className="mainContainer">
             <div className="description">
