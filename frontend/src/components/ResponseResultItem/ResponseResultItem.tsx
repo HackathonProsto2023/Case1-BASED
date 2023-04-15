@@ -1,21 +1,20 @@
 import React from "react";
 import "./ResponseResultItemStyle.css"
 import {Link} from "react-router-dom";
+import IResponse from "../../models/IResponse";
 
 interface props {
-    vacancy: string
-    isAccepted: string
-    comment: string
+    response: IResponse
 }
 
-const ResponseResultItem = ({vacancy, comment, isAccepted}: props) => {
+const ResponseResultItem = ({response}: props) => {
     return (
         <div className="mainContainer">
             <div className="description">
-                <strong id="vacancyName">{vacancy}</strong>
-                <div id="comment">{comment}</div>
+                <Link to={`/applicant/vacancy/${response.id}`} id="vacancyName">{response.vacancyName}</Link>
+                <div id="comment">{response.comment}</div>
             </div>
-            <div id="isAccepted" style={{color: isAccepted? "green": "red"}}>{isAccepted}</div>
+            <div id="isAccepted" style={{color: response.status? "green": "red"}}>{response.status}</div>
         </div>
     )
 }

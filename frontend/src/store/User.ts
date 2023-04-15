@@ -47,6 +47,14 @@ class User {
                 name: 'Санкт-Петербург'
             }};
     }
+
+    addSkill(skill: string) {
+        this.profile?.keySkills.push(skill);
+    }
+
+    removeSkill(name: string) {
+        this.profile.keySkills = this.profile?.keySkills.filter((keySkill) => keySkill != name);
+    }
 }
 
 export default new User()
