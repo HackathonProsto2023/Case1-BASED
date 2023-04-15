@@ -4,27 +4,28 @@ import ResponseList from "../../components/ResponseList/ResponseList";
 import ProfileInfo from "../../components/ProfileInfo/ProfileInfo";
 import RecruiterBlock from "../../components/RecruiterBlock/RecruiterBlock";
 import VacancyBlock from "../../components/VacancyBlock/VacancyBlock";
+import PageTitle from "../../components/PageTitle/PageTitle";
+import user from "../../store/User";
+import {observer} from "mobx-react-lite";
 
-const ProfileRecruiterPage = () => {
-    const recruiter = {
-        name: 'СБЕР',
-        description: 'очень большое и крутое описание'
-    }
+const ProfileRecruiterPage = observer(() => {
 
-    const updateRecruiterProfile = (description: string) => {
 
+    const updateRecruiterProfile = (name: string, description: string) => {
+        user.update(name, description);
     }
 
     return (
         <div className={'container'}>
+            <PageTitle text={'Профиль организации'}/>
             <div className={'flex'} style={{gap: '100px'}}>
-                <ProfileInfo name={recruiter.name} description={recruiter.description} request={updateRecruiterProfile}/>
+                <ProfileInfo name={user.profile.name} description={user.profile.description} request={updateRecruiterProfile}/>
                 <RecruiterBlock />
             </div>
             <VacancyBlock />
             <ResponseList/>
         </div>
     );
-};
+});
 
 export default ProfileRecruiterPage;

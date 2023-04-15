@@ -6,15 +6,15 @@ import IVacancy from "../models/IVacancy";
 class Company {
     recruiters: IRecruiter[] = [
         {id: 1, name: 'Vlad'},
-        {id: 1, name: 'Yuriy'},
-        {id: 1, name: 'Valya'},
-        {id: 1, name: 'Artem'},
+        {id: 2, name: 'Yuriy'},
+        {id: 3, name: 'Valya'},
+        {id: 4, name: 'Artem'},
     ];
     vacancies: IVacancy[] = [
-        {id: 1, name: 'Junior', description: 'Какое то описание', keySkills: ['Java', 'Spring', 'PostgreSQL']},
-        {id: 1, name: 'Middle', description: 'Какое то описание', keySkills: ['Java', 'Spring', 'PostgreSQL']},
-        {id: 1, name: 'Senior', description: 'Какое то описание', keySkills: ['Java', 'Spring', 'PostgreSQL']},
-        {id: 1, name: 'Senior plus', description: 'Какое то описание', keySkills: ['Java', 'Spring', 'PostgreSQL']},
+        {id: 1, name: 'Junior', description: 'Какое то описание', keySkills: ['Java', 'Spring', 'PostgreSQL'], date: new Date()},
+        {id: 2, name: 'Middle', description: 'Какое то описание', keySkills: ['Java', 'Spring', 'PostgreSQL'], date: new Date()},
+        {id: 3, name: 'Senior', description: 'Какое то описание', keySkills: ['Java', 'Spring', 'PostgreSQL'], date: new Date()},
+        {id: 4, name: 'Senior plus', description: 'Какое то описание', keySkills: ['Java', 'Spring', 'PostgreSQL'], date: new Date()},
     ];
     responses: IResponse[] = [
         {applicantId: 1, vacancyId: 4, applicantName: 'Vlad', vacancyName: 'Senior Java Developer', tasksPercent: 100, date: new Date()},
@@ -24,6 +24,22 @@ class Company {
     ];
     constructor() {
         makeAutoObservable(this);
+    }
+
+    addRecruiter(recruiter: IRecruiter) {
+        this.recruiters.push(recruiter);
+    }
+
+    removeRecruiter(id: number) {
+        this.recruiters = this.recruiters.filter((recruiter) => recruiter.id !== id);
+    }
+
+    addVacancy(vacancy: IVacancy) {
+        this.vacancies.push(vacancy);
+    }
+
+    removeVacancy(id: number) {
+        this.vacancies = this.vacancies.filter((vacancy) => vacancy.id !== id);
     }
 }
 

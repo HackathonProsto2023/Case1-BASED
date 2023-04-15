@@ -6,7 +6,7 @@ class User {
     id: number = 1;
     login: string = 'СБЕР';
     role: string = 'RECRUITER';
-    profile: IProfile | null = {
+    profile: IProfile = {
         id: 1,
         name: 'СБЕР',
         description: 'Большое описание большое описание большое описание большое описание большое описание большое описание',
@@ -28,11 +28,24 @@ class User {
         this.profile = user.profile;
     }
 
+    update(name: string, description: string) {
+        this.profile.name = name;
+        this.profile.description = description;
+    }
+
     clear() {
         this.id = 0;
         this.login = '';
         this.role = 'APPLICANT';
-        this.profile = null;
+        this.profile = {
+            id: 0,
+            name: '',
+            description: '',
+            keySkills: [],
+            city: {
+                id: 1,
+                name: 'Санкт-Петербург'
+            }};
     }
 }
 

@@ -6,7 +6,10 @@ import {observer} from "mobx-react-lite";
 const RecruiterList = observer(() => {
     return (
         <div>
-            {company.recruiters.map((recruiter) => <RecruiterItem recruiter={recruiter}/>)}
+            {company.recruiters.length
+                ? company.recruiters.map((recruiter) => <RecruiterItem key={recruiter.id} recruiter={recruiter}/>)
+                : 'Зарегистрируйте рекрутера'
+            }
         </div>
     );
 });
