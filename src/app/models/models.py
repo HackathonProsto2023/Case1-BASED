@@ -1,52 +1,52 @@
-from sqlalchemy import MetaData, Table, Column, Integer, String, ForeignKey
+from sqlalchemy import MetaData, Table, Column, Integer, String, Boolean, ForeignKey, Sequence
 
 metadata = MetaData()
 
 
-recruiters = Table(
+recruiter = Table(
     "recruiters",
     metadata,
-    Column("id", Integer, primary_key=True),
+    Column("id", Integer, Sequence("recruiters_id_seq", metadata=metadata), primary_key=True),
     Column("company_name", String, nullable=False),
     Column("description", String, nullable=False)
 )
 
-applicants = Table(
+applicant = Table(
     "applicants",
     metadata,
-    Column("id", Integer, primary_key=True),
+    Column("id", Integer, Sequence("applicants_id_seq", metadata=metadata), primary_key=True),
     Column("name", String, nullable=False),
     Column("description", String, nullable=False)
 )
 
-skills = Table(
+skill = Table(
     "skills",
     metadata,
-    Column("id", Integer, primary_key=True),
+    Column("id", Integer, Sequence("skills_id_seq", metadata=metadata), primary_key=True),
     Column("name", String, nullable=False)
 )
 
-cities = Table(
+city = Table(
     "cities",
     metadata,
-    Column("id", Integer, primary_key=True),
+    Column("id", Integer, Sequence("cities_id_seq", metadata=metadata), primary_key=True),
     Column("name", String, nullable=False)
 )
 
-vacancies = Table(
+vacancy = Table(
     "vacancies",
     metadata,
-    Column("id", Integer, primary_key=True),
+    Column("id", Integer, Sequence("vacancies_id_seq", metadata=metadata), primary_key=True),
     Column("title", String, nullable=False),
     Column("description", String, nullable=False),
     Column("recruiter_id", Integer, ForeignKey("recruiters.id")),
     Column("city_id", Integer, ForeignKey("cities.id"))
 )
 
-responses = Table(
+response = Table(
     "responses",
     metadata,
-    Column("id", Integer, primary_key=True),
+    Column("id", Integer, Sequence("responses_id_seq", metadata=metadata), primary_key=True),
     Column("applicant_id", Integer, ForeignKey("applicants.id")),
     Column("vacancy_id", Integer, ForeignKey("vacancies.id")),
     Column("result", String, nullable=False)
@@ -66,19 +66,12 @@ vacancy_skill = Table(
     Column("skill_id", Integer, ForeignKey("skills.id"), primary_key=True)
 )
 
-questions = Table(
-    "question",
+question = Table(
+    "questions",
     metadata,
-    Column("id", Integer, primary_key=True),
+    Column("id", Integer, Sequence("questions_id_seq", metadata=metadata), primary_key=True),
+    Column("vacancy_id", Integer, ForeignKey("vacancies.id")),
     Column("question", String, nullable=False),
-    Column("answer_id", String, ForeignKey("answers.id")),
-    Column("vacancy_id", String, ForeignKey("vacancies.id"))
-)
-
-answers = Table(
-    "answers",
-    metadata,
-    Column("id", Integer, primary_key=True),
-    Column("question_id", Integer, ForeignKey("questions.id")),
-    Column("value", String, nullable=False)
+    Column("answer", String, nullable=False),
+    Column("archived", Boolean, nullable=False, default=False)
 )
