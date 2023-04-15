@@ -1,0 +1,13 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.applicantData {
+    display: flex;
+    padding: 20px;
+    border: 2px solid green;
+    border-radius: 20px;
+    justify-content: space-between;
+    align-items: center;
+}
