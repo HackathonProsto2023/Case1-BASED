@@ -1,6 +1,8 @@
+import IProfile from "./IProfile";
+
 export default interface IUser {
     id: number;
-    name: string;
-    description: string;
+    login: string;
     role: string;
+    profile: IProfile;
 }
