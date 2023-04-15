@@ -3,9 +3,9 @@ import IUser from "../models/IUser";
 
 class User {
     id: number = 1;
-    name: string = 'СБЕР';
-    description: string = '';
-    role: string = 'RECRUITER';
+    name: string = 'Yuriy';
+    description: string = 'Description of Yuriy';
+    role: string = 'APPLICANT';
 
     constructor() {
         makeAutoObservable(this);

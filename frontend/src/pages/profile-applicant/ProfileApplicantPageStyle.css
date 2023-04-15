@@ -1,0 +1,11 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.responseResults {
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 800px;
+}

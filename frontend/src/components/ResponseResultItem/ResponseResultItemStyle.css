@@ -1,0 +1,27 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.mainContainer {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    flex-direction: row;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid green;
+}
+
+#vacancyName {
+    font-size: 1.5em;
+}
+
+#comment {
+    font-size: 1.2em;
+}
+
+#isAccepted {
+    font-size: 1.5em;
+    font-weight: bold;
+}
