@@ -7,9 +7,14 @@ interface props {
     onChangeHandler?: (event: any) => void;
 }
 
-const Input = ({placeholder, onChangeHandler}: props) => {
+const Input = ({placeholder, onChangeHandler, value}: props) => {
     return (
-        <input type="text" className={'input'} placeholder={placeholder} onChange={onChangeHandler}/>
+        <input
+            type="text"
+            className={'input'}
+            placeholder={placeholder}
+            value={value}
+            onChange={onChangeHandler}/>
     );
 };
 

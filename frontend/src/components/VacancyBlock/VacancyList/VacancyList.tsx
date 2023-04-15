@@ -6,7 +6,10 @@ import VacancyItem from "../VacancyItem/VacancyItem";
 const VacancyList = observer(() => {
     return (
         <div>
-            {company.vacancies.map((vacancy) => <VacancyItem vacancy={vacancy}/>)}
+            {company.vacancies.length
+                ? company.vacancies.map((vacancy) => <VacancyItem vacancy={vacancy}/>)
+                : 'Добавьте вакансию'
+            }
         </div>
     );
 });

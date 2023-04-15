@@ -3,4 +3,5 @@ export default interface IVacancy {
     name: string;
     description: string;
     keySkills: string[];
+    date: Date
 }

@@ -2,23 +2,30 @@ import React, {useState} from 'react';
 import './ProfileInfo.css';
 import Label from "../UI/Label/Label";
 import Button from "../UI/Button/Button";
+import Input from "../UI/Input/Input";
+import {observer} from "mobx-react-lite";
 
 interface props {
     name: string;
     description: string;
-    request: (description: string) => void;
+    request: (name: string, description: string) => void;
 }
 
-const ProfileInfo = ({name, description, request}: props) => {
+const ProfileInfo = observer(({name, description, request}: props) => {
     const [edit, setEdit] = useState<boolean>(false);
     const [descriptionInput, setDescriptionInput] = useState<string>(description);
+    const [nameInput, setNameInput] = useState<string>(name);
 
     return (
         <div style={{margin: '0 0 10px 0'}}>
-            <Label text={name}/>
             {edit
                 ?
                 <div style={{width: '300px'}}>
+                    <Input
+                        placeholder={'Имя'}
+                        value={nameInput}
+                        onChangeHandler={(event) => {setNameInput(event.target.value)}}
+                    />
                      <textarea
                          className={'ProfileRecruiterInfo_textarea'}
                          value={descriptionInput}
@@ -28,12 +35,13 @@ const ProfileInfo = ({name, description, request}: props) => {
                         text={'Сохранить'}
                         handler={() => {
                             setEdit(false);
-                            request(descriptionInput);
+                            request(nameInput, descriptionInput);
                         }}/>
                 </div>
                 :
                 <div style={{width: '300px'}}>
-                    <p>{descriptionInput}</p>
+                    <Label text={name}/>
+                    <p style={{margin: '0 0 10px 0'}}>{descriptionInput}</p>
                     <div style={{width: '100px'}}>
                         <Button text={'Изменить'} handler={() => {setEdit(true)}}/>
                     </div>
@@ -41,6 +49,6 @@ const ProfileInfo = ({name, description, request}: props) => {
             }
         </div>
     );
-};
+});
 
 export default ProfileInfo;
