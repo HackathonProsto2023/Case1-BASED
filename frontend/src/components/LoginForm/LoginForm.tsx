@@ -10,7 +10,7 @@ const LoginForm = () => {
             <Label text={'Вход'}/>
             <div className={'flex'}>
                 <h3>Имя:</h3>
-                <Input/>
+                <Input value={''}/>
             </div>
             <div className={'flex_column'}>
                 <div>

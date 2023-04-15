@@ -9,7 +9,7 @@ const RegistrationForm = () => {
             <Label text={'Регистрация'}/>
             <div className={'input__block'}>
                 <h3>Имя:</h3>
-                <Input/>
+                <Input value={''}/>
             </div>
             <div className={'flex'}>
                 <input type="radio" name="options" value={'APPLICANT'} /> Соискатель

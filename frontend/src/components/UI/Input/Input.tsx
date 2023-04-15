@@ -3,7 +3,8 @@ import './Input.css';
 
 interface props {
     placeholder?: string;
-    onChangeHandler?: () => void;
+    value: string;
+    onChangeHandler?: (event: any) => void;
 }
 
 const Input = ({placeholder, onChangeHandler}: props) => {
