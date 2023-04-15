@@ -3,22 +3,6 @@ from sqlalchemy import MetaData, Table, Column, Integer, String, Boolean, Foreig
 metadata = MetaData()
 
 
-recruiter = Table(
-    "recruiters",
-    metadata,
-    Column("id", Integer, Sequence("recruiters_id_seq", metadata=metadata), primary_key=True),
-    Column("company_name", String, nullable=False),
-    Column("description", String, nullable=False)
-)
-
-applicant = Table(
-    "applicants",
-    metadata,
-    Column("id", Integer, Sequence("applicants_id_seq", metadata=metadata), primary_key=True),
-    Column("name", String, nullable=False),
-    Column("description", String, nullable=False)
-)
-
 skill = Table(
     "skills",
     metadata,
@@ -31,6 +15,30 @@ city = Table(
     metadata,
     Column("id", Integer, Sequence("cities_id_seq", metadata=metadata), primary_key=True),
     Column("name", String, nullable=False)
+)
+
+company = Table(
+    "company",
+    metadata,
+    Column("id", Integer, Sequence("customers_id_seq", metadata=metadata), primary_key=True),
+    Column("name", String, nullable=False),
+    Column("description", String, nullable=False)
+)
+
+recruiter = Table(
+    "recruiters",
+    metadata,
+    Column("id", Integer, Sequence("recruiters_id_seq", metadata=metadata), primary_key=True),
+    Column("name", String, nullable=False),
+    Column("company_id", String, nullable=False)
+)
+
+applicant = Table(
+    "applicants",
+    metadata,
+    Column("id", Integer, Sequence("applicants_id_seq", metadata=metadata), primary_key=True),
+    Column("name", String, nullable=False),
+    Column("description", String, nullable=False)
 )
 
 vacancy = Table(
