@@ -17,6 +17,21 @@ city = Table(
     Column("name", String, nullable=False)
 )
 
+user = Table(
+    "users",
+    metadata,
+    Column("id", Integer, Sequence("users_id_seq", metadata=metadata), primary_key=True),
+    Column("login", String, nullable=False),
+    Column("login", String, nullable=False),
+    Column("login", String, nullable=False),
+)
+
+profile = Table(
+    "profiles",
+    metadata,
+
+)
+
 company = Table(
     "company",
     metadata,
