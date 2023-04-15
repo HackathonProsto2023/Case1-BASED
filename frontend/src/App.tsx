@@ -12,6 +12,7 @@ import CreateVacancyPage from "./pages/create-vacancy/CreateVacancyPage";
 import SearchApplicantPage from "./pages/seach-applicant/SearchApplicantPage";
 import ApplicantPage from "./pages/applicant/ApplicantPage";
 import './App.css';
+import ProfileVacancyPage from "./pages/profile-vacancy/ProfileVacancyPage";
 
 function App() {
   return (
@@ -29,7 +30,8 @@ function App() {
 
           <Route path="recruiter">
             <Route path="profile" element={<ProfileRecruiterPage/>} />
-            <Route path="vaсancy" element={<CreateVacancyPage/>} />
+            <Route path="vaсancy/:id" element={<ProfileVacancyPage/>} />
+            <Route path="vaсancy/create" element={<CreateVacancyPage/>} />
             <Route path="responses" element={<CreateVacancyPage/>} />
             <Route path="seach" element={<SearchApplicantPage/>} />
             <Route path="applicant/:id" element={<ApplicantPage/>} />
