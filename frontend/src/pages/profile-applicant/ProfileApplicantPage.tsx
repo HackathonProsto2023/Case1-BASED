@@ -14,7 +14,7 @@ const ProfileApplicantPage = observer(() => {
 
     return (
         <div className={"container"}>
-            <ProfileInfo name={user.name} description={user.description} request={updateApplicantProfile} />
+            <ProfileInfo name={user.profile?.name || ''} description={user.profile?.description || ''} request={updateApplicantProfile} />
             <KeySkillsForm/>
             <div style={{display: "flex", flexDirection: "column"}}>
                 <Label text="Загрузите сюда свое резюме:"/>
