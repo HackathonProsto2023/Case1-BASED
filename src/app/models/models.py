@@ -1,4 +1,6 @@
-from sqlalchemy import MetaData, Table, Column, Integer, String, Boolean, ForeignKey, Sequence
+import datetime
+
+from sqlalchemy import MetaData, Table, Column, Integer, String, Boolean, Date, ForeignKey, Sequence
 
 metadata = MetaData()
 
@@ -22,37 +24,16 @@ user = Table(
     metadata,
     Column("id", Integer, Sequence("users_id_seq", metadata=metadata), primary_key=True),
     Column("login", String, nullable=False),
-    Column("login", String, nullable=False),
-    Column("login", String, nullable=False),
+    Column("role", String, nullable=False),
+    Column("profile_id", Integer, ForeignKey("profiles.id"))
 )
 
 profile = Table(
     "profiles",
     metadata,
-
-)
-
-company = Table(
-    "company",
-    metadata,
-    Column("id", Integer, Sequence("customers_id_seq", metadata=metadata), primary_key=True),
+    Column("id", Integer, Sequence("profiles_id_seq", metadata=metadata), primary_key=True),
     Column("name", String, nullable=False),
-    Column("description", String, nullable=False)
-)
-
-recruiter = Table(
-    "recruiters",
-    metadata,
-    Column("id", Integer, Sequence("recruiters_id_seq", metadata=metadata), primary_key=True),
-    Column("name", String, nullable=False),
-    Column("company_id", String, nullable=False)
-)
-
-applicant = Table(
-    "applicants",
-    metadata,
-    Column("id", Integer, Sequence("applicants_id_seq", metadata=metadata), primary_key=True),
-    Column("name", String, nullable=False),
+    Column("city_id", Integer, ForeignKey("cities.id")),
     Column("description", String, nullable=False)
 )
 
@@ -62,24 +43,27 @@ vacancy = Table(
     Column("id", Integer, Sequence("vacancies_id_seq", metadata=metadata), primary_key=True),
     Column("title", String, nullable=False),
     Column("description", String, nullable=False),
-    Column("recruiter_id", Integer, ForeignKey("recruiters.id")),
-    Column("city_id", Integer, ForeignKey("cities.id"))
+    Column("company_id", Integer, ForeignKey("profiles.id")),
+    Column("publish_date", Date, nullable=False, default=datetime.datetime.now().date()),
+    Column("is_archived", Boolean, nullable=False, default=False)
 )
 
 response = Table(
     "responses",
     metadata,
     Column("id", Integer, Sequence("responses_id_seq", metadata=metadata), primary_key=True),
-    Column("applicant_id", Integer, ForeignKey("applicants.id")),
+    Column("applicant_id", Integer, ForeignKey("profiles.id")),
     Column("vacancy_id", Integer, ForeignKey("vacancies.id")),
-    Column("result", String, nullable=False)
+    Column("response_date", Date, nullable=False, default=datetime.datetime.now().date()),
+    Column("task_result", String, nullable=False),
+    Column("answer", String, nullable=False)
 )
 
 applicant_skill = Table(
     "applicant_skill",
     metadata,
     Column("skill_id", Integer, ForeignKey("skills.id"), primary_key=True),
-    Column("applicant_id", Integer, ForeignKey("applicants.id"), primary_key=True)
+    Column("applicant_id", Integer, ForeignKey("users.id"), primary_key=True)
 )
 
 vacancy_skill = Table(
