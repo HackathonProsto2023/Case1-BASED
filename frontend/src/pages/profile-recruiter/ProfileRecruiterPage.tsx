@@ -1,18 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import "../profile-recruiter/ProfileRecruiterPageStyle.css"
+import ResponseList from "../../components/ResponseList/ResponseList";
+import ProfileInfo from "../../components/ProfileInfo/ProfileInfo";
 
 const ProfileRecruiterPage = () => {
-    const [responseCount, setResumesCount] = useState(0)
-    function onMessageClicked() {
+    const recruiter = {
+        name: 'СБЕР',
+        description: 'очень большое и крутое описание'
+    }
+
+    const updateRecruiterProfile = (description: string) => {
 
     }
+
     return (
-        <div>
-            <h1 style={{color: 'green'}}>Страница рекрутера</h1>
-            <div>
-                У вас {responseCount} непросмотренных резюме
-                <button>Просмотреть резюме</button>
-            </div>
+        <div className={'container'}>
+            <ProfileInfo name={recruiter.name} description={recruiter.description} request={updateRecruiterProfile}/>
+            <ResponseList/>
         </div>
     );
 };

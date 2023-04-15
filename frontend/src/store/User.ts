@@ -2,10 +2,10 @@ import {makeAutoObservable} from "mobx";
 import IUser from "../models/IUser";
 
 class User {
-    id: number = 0;
-    name: string = '';
+    id: number = 1;
+    name: string = 'СБЕР';
     description: string = '';
-    role: string = 'APPLICANT';
+    role: string = 'RECRUITER';
 
     constructor() {
         makeAutoObservable(this);

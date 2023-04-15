@@ -8,7 +8,9 @@ import {Link} from "react-router-dom";
 const Header = observer(() => {
     return (
         <div className={'header'}>
-            <div className={'header_title'}>Пульса.net</div>
+            <Link to={'/'} style={{textDecoration: 'none'}}>
+                <div className={'header_title'}>Пульса.net</div>
+            </Link>
             {user.id
                 ?
                 <div className={'flex'} style={{alignItems: 'center'}}>
