@@ -1,8 +1,11 @@
 export default interface IResponse {
+    id: number;
     applicantId: number;
     applicantName: string;
     vacancyId: number;
     vacancyName: string;
-    tasksPercent: number;
+    testResult: number;
     date: Date;
+    status: string;
+    comment: string;
 }

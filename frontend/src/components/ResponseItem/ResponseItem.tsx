@@ -14,7 +14,7 @@ const ResponseItem = ({response}:props) => {
             <div>
                 <div><Link to={`/recruiter/applicant/${response.applicantId}`}>ФИО: {response.applicantName}</Link></div>
                 <div><Link to={`/recruiter/vacancy/${response.vacancyId}`}>Вакансия: {response.vacancyName}</Link></div>
-                <div>Процент решенных заданий: {response.tasksPercent}%</div>
+                <div>Процент решенных заданий: {response.testResult}%</div>
                 <div>Отправлено: {response.date.toString()}</div>
             </div>
             <div className={'flex'}>

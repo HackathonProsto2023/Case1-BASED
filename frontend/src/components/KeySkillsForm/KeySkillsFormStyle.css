@@ -10,3 +10,14 @@
     margin-top: 5px;
     margin-bottom: 5px;
 }
+
+.inputDiv {
+    display: flex;
+    flex-direction: row;
+}
+
+.keySkillsList {
+    display: flex;
+    flex-direction: row;
+    width: 400px;
+}

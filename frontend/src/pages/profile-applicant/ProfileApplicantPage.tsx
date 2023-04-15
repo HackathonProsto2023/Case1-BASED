@@ -14,15 +14,17 @@ const ProfileApplicantPage = observer(() => {
 
     return (
         <div className={"container"}>
-            <ProfileInfo name={user.profile?.name || ''} description={user.profile?.description || ''} request={updateApplicantProfile} />
-            <KeySkillsForm/>
-            <div style={{display: "flex", flexDirection: "column"}}>
-                <Label text="Загрузите сюда свое резюме:"/>
-                <input type="file" style={{marginLeft: "10px"}}/>
+            <div className={"flex"}>
+                <ProfileInfo name={user.profile?.name || ''} description={user.profile?.description || ''} request={updateApplicantProfile} />
+                <KeySkillsForm/>
+                <div style={{display: "flex", flexDirection: "column"}}>
+                    <Label text="Загрузите сюда свое резюме:"/>
+                    <input type="file" style={{marginLeft: "10px"}}/>
+                </div>
             </div>
             <div className="responseResults">
                 <Label text={"Результаты откликов"} />
-                <ResponseResultItem vacancy="Some vacancy" isAccepted="Приглашение" comment="Ай маладца возьми холодца" />
+                <ResponseResultItem response={{vacancyName: "Some vacancy", comment: "Ай малаца поешь холодца", id: 1, applicantId: 3, applicantName: "Yuriy", vacancyId: 4, testResult: 95, date: new Date(), status: "Приглашение"}} />
             </div>
         </div>
     );
