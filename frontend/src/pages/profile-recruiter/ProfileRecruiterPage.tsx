@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ProfileVacancyPage = () => {
+const ProfileRecruiterPage = () => {
     return (
         <div>
             ProfileVacancyPage
@@ -8,4 +8,4 @@ const ProfileVacancyPage = () => {
     );
 };
 
-export default ProfileVacancyPage;
+export default ProfileRecruiterPage;
