@@ -1,3 +1,4 @@
+import setuptools
 from setuptools import setup
 
 setup(
@@ -6,6 +7,6 @@ setup(
     description='Приложение для удобного подбора персонала',
     long_description="",
     zip_safe=False,
-    packages=['app', 'tests'],
+    packages=setuptools.find_packages(),
     python_requires='>=3.10',
 )
