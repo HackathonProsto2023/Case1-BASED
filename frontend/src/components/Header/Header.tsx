@@ -17,8 +17,8 @@ const Header = observer(() => {
                     <Link
                         className={'title'}
                         to={user.role === 'APPLICANT' ? 'applicant/profile' : 'recruiter/profile'}
-                    >{user.name}</Link>
-                    <Button text={'Выйти'}/>
+                    >{user.profile?.name}</Link>
+                    <Button text={'Выйти'} handler={() => user.clear()}/>
                 </div>
                 :
                 <Link to={'login'} style={{textDecoration: 'none'}}>
