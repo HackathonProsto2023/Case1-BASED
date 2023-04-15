@@ -1,0 +1,12 @@
+.keySkillForm {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.keySkillForm input {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
