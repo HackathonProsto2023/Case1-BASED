@@ -1,4 +1,5 @@
 import React from 'react';
+import Header from "../Header/Header";
 
 interface props {
     children: React.ReactNode
@@ -7,7 +8,7 @@ interface props {
 const Layout = ({children}: props) => {
     return (
         <div>
-            Layout
+            <Header />
             {children}
         </div>
     );

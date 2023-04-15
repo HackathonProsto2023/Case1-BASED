@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, Router, Routes} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import LoginPage from "./pages/login/LoginPage";
 import RegistrationPage from "./pages/registration/RegistrationPage";
@@ -7,15 +7,16 @@ import ProfileApplicantPage from "./pages/profile-applicant/ProfileApplicantPage
 import SearchVacancyPage from "./pages/seach-vacancy/SearchVacancyPage";
 import VacancyPage from "./pages/vakancy/VacancyPage";
 import TestPage from "./pages/test/TestPage";
-import ProfileVacancyPage from "./pages/profile-vacancy/ProfileVacancyPage";
+import ProfileRecruiterPage from "./pages/profile-recruiter/ProfileRecruiterPage";
 import CreateVacancyPage from "./pages/create-vacancy/CreateVacancyPage";
 import SearchApplicantPage from "./pages/seach-applicant/SearchApplicantPage";
 import ApplicantPage from "./pages/applicant/ApplicantPage";
+import './App.css';
 
 function App() {
   return (
       <Layout>
-      <Routes>
+        <Routes>
           <Route path="/login" element={<LoginPage/>} />
           <Route path="/registration" element={<RegistrationPage/>} />
 
@@ -27,7 +28,7 @@ function App() {
           </Route>
 
           <Route path="recruiter">
-            <Route path="profile" element={<ProfileVacancyPage/>} />
+            <Route path="profile" element={<ProfileRecruiterPage/>} />
             <Route path="vaсancy" element={<CreateVacancyPage/>} />
             <Route path="responses" element={<CreateVacancyPage/>} />
             <Route path="seach" element={<SearchApplicantPage/>} />
