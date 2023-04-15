@@ -1,23 +1,21 @@
 import React from 'react';
 import ResponseItem from "../ResponseItem/ResponseItem";
 import Label from "../UI/Label/Label";
+import IResponse from "../../models/IResponse";
 
 const ResponseList = () => {
-    const responses = [
-        {id: 1, applicantName: 'Vlad', vacancyName: 'Senior Java Developer', tasksPercent: 100},
-        {id: 2, applicantName: 'Yuri', vacancyName: 'Senior Java Developer', tasksPercent: 100},
-        {id: 3, applicantName: 'Valya', vacancyName: 'Senior Java Developer', tasksPercent: 100},
-        {id: 4, applicantName: 'Artem', vacancyName: 'Senior Java Developer', tasksPercent: 100},
+    const responses: IResponse[] = [
+        {applicantId: 1, vacancyId: 4, applicantName: 'Vlad', vacancyName: 'Senior Java Developer', tasksPercent: 100, date: new Date()},
+        {applicantId: 2, vacancyId: 3, applicantName: 'Yuri', vacancyName: 'Senior Java Developer', tasksPercent: 100, date: new Date()},
+        {applicantId: 3, vacancyId: 2, applicantName: 'Valya', vacancyName: 'Senior Java Developer', tasksPercent: 100, date: new Date()},
+        {applicantId: 4, vacancyId: 1, applicantName: 'Artem', vacancyName: 'Senior Java Developer', tasksPercent: 100, date: new Date()},
     ]
 
     return (
         <div>
             <Label text={'Отклики'}/>
             {responses.map((response) => <ResponseItem
-                id={response.id}
-                applicantName={response.applicantName}
-                tasksPercent={response.tasksPercent}
-                vacancyName={response.vacancyName}
+                response={response}
             />)}
         </div>
     );

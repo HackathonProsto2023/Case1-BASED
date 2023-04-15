@@ -4,7 +4,6 @@ import ResponseList from "../../components/ResponseList/ResponseList";
 import ProfileInfo from "../../components/ProfileInfo/ProfileInfo";
 
 const ProfileRecruiterPage = () => {
-
     const recruiter = {
         name: 'СБЕР',
         description: 'очень большое и крутое описание'
@@ -17,7 +16,7 @@ const ProfileRecruiterPage = () => {
     return (
         <div className={'container'}>
             <ProfileInfo name={recruiter.name} description={recruiter.description} request={updateRecruiterProfile}/>
-           <ResponseList/>
+            <ResponseList/>
         </div>
     );
 };

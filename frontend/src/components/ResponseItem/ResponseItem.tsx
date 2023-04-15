@@ -2,21 +2,20 @@ import React from "react"
 import "./ResponseItemStyle.css"
 import { Link } from "react-router-dom"
 import Button from "../UI/Button/Button"
+import IResponse from "../../models/IResponse";
 
 interface props {
-    id: number;
-    applicantName: string;
-    vacancyName: string;
-    tasksPercent: number;
+    response: IResponse;
 }
 
-const ResponseItem = ({id, applicantName, vacancyName, tasksPercent}:props) => {
+const ResponseItem = ({response}:props) => {
     return(
         <div className={'flex applicantData'}>
             <div>
-                <div><Link to={`recruiter/applicant/${id}`}>ФИО: {applicantName}</Link></div>
-                <div><Link to={`recruiter/vacancy/${id}`}>Вакансия: {vacancyName}</Link></div>
-                <div>Процент решенных заданий: {tasksPercent}%</div>
+                <div><Link to={`/recruiter/applicant/${response.applicantId}`}>ФИО: {response.applicantName}</Link></div>
+                <div><Link to={`/recruiter/vacancy/${response.vacancyId}`}>Вакансия: {response.vacancyName}</Link></div>
+                <div>Процент решенных заданий: {response.tasksPercent}%</div>
+                <div>Отправлено: {response.date.toString()}</div>
             </div>
             <div className={'flex'}>
                 <Button text="Принять" />
