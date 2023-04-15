@@ -1,9 +1,20 @@
 import React from 'react';
+import LoginForm from "../../components/LoginForm/LoginForm";
+import {Link} from "react-router-dom";
 
 const LoginPage = () => {
     return (
-        <div>
-            LoginPage
+        <div style={{
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'center'
+        }}>
+            <div>
+                <LoginForm />
+                <div style={{margin: '10px 0 0 0'}}>
+                    Нет профиля? <Link to={'/registration'}>Зарегистрироваться</Link>
+                </div>
+            </div>
         </div>
     );
 };
