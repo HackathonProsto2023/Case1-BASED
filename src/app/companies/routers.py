@@ -17,7 +17,7 @@ company_router = APIRouter(
 )
 
 
-@company_router.post("/{id_}/vacancy")
+@company_router.post("/{id_}/vacancy", status_code=200)
 async def create_vacancy(id_: int, item: VacancyCreate, session: AsyncSession = Depends(get_async_session)):
     try:
         statement = insert(vacancy).values(**item.dict(), company_id=id_).returning(vacancy)
@@ -40,7 +40,6 @@ async def create_vacancy(id_: int, item: VacancyCreate, session: AsyncSession = 
 
         await session.commit()
         return {
-            "status_code": 200,
             "data": vacancy_data,
         }
     except sqlalchemy.exc.ProgrammingError:
@@ -55,7 +54,7 @@ async def create_vacancy(id_: int, item: VacancyCreate, session: AsyncSession = 
         )
 
 
-@company_router.get("/vacancy/{id_}")
+@company_router.get("/vacancy/{id_}", status_code=200)
 async def get_vacancy(id_: int, session: AsyncSession = Depends(get_async_session)):
     try:
         query = select(vacancy).where(vacancy.c.id == id_)
@@ -83,7 +82,6 @@ async def get_vacancy(id_: int, session: AsyncSession = Depends(get_async_sessio
         vacancy_data["company"] = profile_data
 
         return {
-            "status_code": 200,
             "data": vacancy_data,
         }
     except sqlalchemy.exc.ProgrammingError:
@@ -98,16 +96,13 @@ async def get_vacancy(id_: int, session: AsyncSession = Depends(get_async_sessio
         )
 
 
-@company_router.put("/vacancy/{id_}")
+@company_router.put("/vacancy/{id_}", status_code=200)
 async def update_vacancy(id_: int, item: VacancyUpdate, session: AsyncSession = Depends(get_async_session)):
     try:
         statement = update(vacancy).where(vacancy.c.id == id_).values(**item.dict())
         await session.execute(statement)
 
         await session.commit()
-        return {
-            "status_code": "200"
-        }
     except sqlalchemy.exc.ProgrammingError:
         return HTTPException(
             status_code=400,
@@ -120,7 +115,7 @@ async def update_vacancy(id_: int, item: VacancyUpdate, session: AsyncSession = 
         )
 
 
-@company_router.delete("/vacancy/{id_}")
+@company_router.delete("/vacancy/{id_}", status_code=200)
 async def delete_vacancy(id_: int, session: AsyncSession = Depends(get_async_session)):
     try:
         query = select(vacancy).where(vacancy.c.id == id_)
@@ -130,9 +125,6 @@ async def delete_vacancy(id_: int, session: AsyncSession = Depends(get_async_ses
         statement = delete(vacancy).where(vacancy.c.id == id_)
         await session.execute(statement)
         await session.commit()
-        return {
-            "status_code": "200"
-        }
     except sqlalchemy.exc.NoResultFound:
         raise HTTPException(
             status_code=400,
@@ -145,7 +137,7 @@ async def delete_vacancy(id_: int, session: AsyncSession = Depends(get_async_ses
         )
 
 
-@company_router.get("/{company_id_}/vacancies")
+@company_router.get("/{company_id_}/vacancies", status_code=200)
 async def get_vacancy_to_company(company_id_: int, session: AsyncSession = Depends(get_async_session)):
     try:
         query = select(vacancy).where(vacancy.c.company_id == company_id_)
@@ -157,7 +149,6 @@ async def get_vacancy_to_company(company_id_: int, session: AsyncSession = Depen
                 detail="Vacancy not found"
             )
         return {
-            "status_code": 200,
             "data": vacancy_data,
         }
     except HTTPException:
@@ -174,7 +165,7 @@ async def get_vacancy_to_company(company_id_: int, session: AsyncSession = Depen
         )
 
 
-@company_router.get("/vacancy/{vacancy_id_}/responses")
+@company_router.get("/vacancy/{vacancy_id_}/responses", status_code=200)
 async def get_responses_to_vacancy(vacancy_id_: int, session: AsyncSession = Depends(get_async_session)):
     try:
         query = select(response).where(response.c.vacancy_id == vacancy_id_)
@@ -187,7 +178,6 @@ async def get_responses_to_vacancy(vacancy_id_: int, session: AsyncSession = Dep
                 detail="Vacancy not found"
             )
         return {
-            "status_code": 200,
             "data": vacancy_data,
         }
     except HTTPException:

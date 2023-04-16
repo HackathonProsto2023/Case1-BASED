@@ -14,7 +14,7 @@ users_router = APIRouter(
 )
 
 
-@users_router.post("/city")
+@users_router.post("/city", status_code=200)
 async def add_city(city_name: str = Body(..., embed=True), session: AsyncSession = Depends(get_async_session)):
     query = select(city).where(city.c.name == city_name)
     result = await session.execute(query)
@@ -26,13 +26,12 @@ async def add_city(city_name: str = Body(..., embed=True), session: AsyncSession
         await session.commit()
 
 
-@users_router.get("/all_cities")
+@users_router.get("/all_cities", status_code=200)
 async def get_all_cities(session: AsyncSession = Depends(get_async_session)):
     try:
         query = select(city)
         result = await session.execute(query)
         return {
-            "status_code": 200,
             "data": list(result.mappings().all())
         }
     except Exception as error:
@@ -42,7 +41,7 @@ async def get_all_cities(session: AsyncSession = Depends(get_async_session)):
         )
 
 
-@users_router.post("/registration")
+@users_router.post("/registration", status_code=200)
 async def add_user(user_: User, session: AsyncSession = Depends(get_async_session)):
     try:
         assert user_.role in ["applicant", "company", "recruiter"]
@@ -74,7 +73,6 @@ async def add_user(user_: User, session: AsyncSession = Depends(get_async_sessio
 
         await session.commit()
         return {
-            "status_code": 200,
             "data": user_data
         }
     except HTTPException:
@@ -91,7 +89,7 @@ async def add_user(user_: User, session: AsyncSession = Depends(get_async_sessio
         )
 
 
-@users_router.post("/login")
+@users_router.post("/login", status_code=200)
 async def login(user_: User, session: AsyncSession = Depends(get_async_session)):
     try:
         assert user_.role in ["applicant", "company", "recruiter"]
@@ -125,7 +123,6 @@ async def login(user_: User, session: AsyncSession = Depends(get_async_session))
             data.pop("profile_id")
             data["profile"] = profile_
             return {
-                "status_code": 200,
                 "data": data
             }
         raise HTTPException(
@@ -152,7 +149,7 @@ async def login(user_: User, session: AsyncSession = Depends(get_async_session))
 #     return f"{item}"
 
 
-@users_router.put("/profile/{id_}")
+@users_router.put("/profile/{id_}", status_code=200)
 async def update_profile(id_: int, profile_: ProfileUpdate, session: AsyncSession = Depends(get_async_session)):
     try:
         query = select(city).where(city.c.id == profile_.city_id)
@@ -168,9 +165,6 @@ async def update_profile(id_: int, profile_: ProfileUpdate, session: AsyncSessio
         statement = update(profile).where(profile.c.id == id_).values(**profile_.dict())
         await session.execute(statement)
         await session.commit()
-        return {
-            "status_code": 200
-        }
     except Exception as error:
         raise HTTPException(
             status_code=500,

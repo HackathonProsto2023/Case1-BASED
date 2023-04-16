@@ -2,9 +2,10 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
+from src.app.companies.models import vacancy
 from src.app.database import get_async_session
 from src.app.responses.models import response
-from src.app.skills.models import applicant_skill
+from src.app.skills.models import applicant_skill, skill, vacancy_skill
 from src.app.users.models import user
 
 applicants_router = APIRouter(
@@ -13,7 +14,7 @@ applicants_router = APIRouter(
 )
 
 
-@applicants_router.get("/{id_}/responses")
+@applicants_router.get("/{id_}/responses", status_code=200)
 async def get_responses_by_applicant(id_: int, session: AsyncSession = Depends(get_async_session)):
     try:
         query = select(user).where(user.c.id == id_)
@@ -27,7 +28,6 @@ async def get_responses_by_applicant(id_: int, session: AsyncSession = Depends(g
         query = select(response).where(response.c.applicant_id == id_)
         result = await session.execute(query)
         return {
-            "status_code": 200,
             "data": list(result.mappings().all())
         }
     except HTTPException:
@@ -39,6 +39,29 @@ async def get_responses_by_applicant(id_: int, session: AsyncSession = Depends(g
         )
 
 
-# @applicants_router.get("/{id_}/search")
-# def sort_by_skills(id_: int):
-#     select(applicant_skill).where("")
+@applicants_router.get("/{id_}/search", status_code=200)
+async def sort_by_skills(id_: int, session: AsyncSession = Depends(get_async_session)):
+    query = select(applicant_skill).where(applicant_skill.c.applicant_id == id_)
+    result = await session.execute(query)
+    skills = tuple(map(lambda x: x[0], result.all()))
+    query = select(skill.c.id).where(
+        skill.c.id.in_(skills)
+    )
+    result = await session.execute(query)
+    applicant_skills = set(map(lambda x: x[0], result.all()))
+
+    query = select(vacancy)
+    result = await session.execute(query)
+    vacancies = result.mappings().all()
+
+    for vacancy_ in vacancies:
+        query = select(vacancy_skill.c.skill_id).where(vacancy_skill.c.vacancy_id == vacancy["id"])
+        result = await(session.execute(query))
+        vacancy_skills = set(map(lambda x: x[0], result.all()))
+
+        vacancy_["eq"] = len(vacancy_skills.intersection(applicant_skills))
+
+    vacancies = sorted(vacancies, key=lambda x: x["eq"])
+    return {
+        "data": vacancies
+    }

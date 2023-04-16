@@ -13,7 +13,7 @@ response_router = APIRouter(
 )
 
 
-@response_router.post("/")
+@response_router.post("/", status_code=200)
 async def add_response(response_: ResponseCreate, session: AsyncSession = Depends(get_async_session)):
     try:
         statement = insert(response).values(**response_.dict(), comment="").returning(response)
@@ -21,7 +21,6 @@ async def add_response(response_: ResponseCreate, session: AsyncSession = Depend
         response_data = dict(result.mappings().one())
         await session.commit()
         return {
-            "status_code": 200,
             "data": response_data,
         }
     except sqlalchemy.exc.ProgrammingError:
@@ -36,7 +35,7 @@ async def add_response(response_: ResponseCreate, session: AsyncSession = Depend
         )
 
 
-@response_router.get("/{id_}")
+@response_router.get("/{id_}", status_code=200)
 async def get_response_by_id(id_: int, session: AsyncSession = Depends(get_async_session)):
     try:
         query = select(response).where(response.c.id == id_)
@@ -44,7 +43,6 @@ async def get_response_by_id(id_: int, session: AsyncSession = Depends(get_async
         response_data = dict(result.mappings().one())
 
         return {
-            "status_code": 200,
             "data": response_data,
         }
     except sqlalchemy.exc.ProgrammingError:
@@ -59,7 +57,7 @@ async def get_response_by_id(id_: int, session: AsyncSession = Depends(get_async
         )
 
 
-@response_router.put("/{id_}/answer")
+@response_router.put("/{id_}/answer", status_code=200)
 async def answer_to_response(id_: int, answer: str = Body(..., embed=True),
                              session: AsyncSession = Depends(get_async_session)):
     try:
@@ -67,9 +65,6 @@ async def answer_to_response(id_: int, answer: str = Body(..., embed=True),
         await session.execute(statement)
 
         await session.commit()
-        return {
-            "status_code": "200"
-        }
     except sqlalchemy.exc.ProgrammingError:
         return HTTPException(
             status_code=400,

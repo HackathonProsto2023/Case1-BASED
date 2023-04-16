@@ -12,7 +12,7 @@ app = FastAPI(
 )
 
 # front-end availability
-origins = ["*"]
+origins = ["*", "https://hahaton-52985.web.app/"]
 
 app.add_middleware(
     CORSMiddleware,
