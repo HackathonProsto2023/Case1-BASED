@@ -8,12 +8,12 @@ const RegistrationForm = () => {
         <div className={'main'}>
             <Label text={'Регистрация'}/>
             <div className={'input__block'}>
-                <h3>Имя:</h3>
+                <h3>Логин:</h3>
                 <Input value={''}/>
             </div>
             <div className={'flex'}>
                 <input type="radio" name="options" value={'APPLICANT'} /> Соискатель
-                <input type="radio" name="options" value={'RECRUITER'} /> Рекрутер
+                <input type="radio" name="options" value={'COMPANY'} /> Организация
             </div>
             <Button text={'Зарегистрироваться'}/>
         </div>

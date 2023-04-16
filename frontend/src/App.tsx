@@ -8,7 +8,6 @@ import SearchVacancyPage from "./pages/seach-vacancy/SearchVacancyPage";
 import VacancyPage from "./pages/vakancy/VacancyPage";
 import TestPage from "./pages/test/TestPage";
 import ProfileRecruiterPage from "./pages/profile-recruiter/ProfileRecruiterPage";
-import CreateVacancyPage from "./pages/create-vacancy/CreateVacancyPage";
 import SearchApplicantPage from "./pages/seach-applicant/SearchApplicantPage";
 import ApplicantPage from "./pages/applicant/ApplicantPage";
 import './App.css';
@@ -30,9 +29,7 @@ function App() {
 
           <Route path="recruiter">
             <Route path="profile" element={<ProfileRecruiterPage/>} />
-            <Route path="vaсancy/:id" element={<ProfileVacancyPage/>} />
-            <Route path="vaсancy/create" element={<CreateVacancyPage/>} />
-            <Route path="responses" element={<CreateVacancyPage/>} />
+            <Route path="vacancy/:id" element={<ProfileVacancyPage/>} />
             <Route path="seach" element={<SearchApplicantPage/>} />
             <Route path="applicant/:id" element={<ApplicantPage/>} />
           </Route>
