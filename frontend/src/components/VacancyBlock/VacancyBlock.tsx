@@ -10,7 +10,7 @@ const VacancyBlock = observer(() => {
             <Label text={'Добавить вакансию'}/>
             <VacancyForm />
             <Label text={'Активные вакансии'}/>
-            <VacancyList />
+            <VacancyList vacancies={[]}/>
         </div>
     );
 });

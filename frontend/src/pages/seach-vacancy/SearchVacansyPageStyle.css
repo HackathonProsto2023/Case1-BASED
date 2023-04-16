@@ -1,0 +1,84 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.generalContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.searchContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+    border: 2px solid green;
+    border-radius: 10px;
+}
+
+.searchContainer input {
+    width: 100%;
+    padding: 5px;
+}
+
+.searchContainer button {
+    background-color: green;
+    border: 1px solid green;
+    padding: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-topright: 5px;
+    color: white;
+    font-size: 1.2em;
+}
+
+.bottomContainer {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    /*justify-content: space-between;*/
+    /*align-content: center;*/
+}
+
+.searchFilters {
+    display: flex;
+    flex-direction: column;
+    margin-right: 5px;
+}
+
+h1, h2, .searchFilters input, .searchFilters button, .cCheckbox {
+   margin-top: 5px;
+   margin-bottom: 5px;
+}
+
+.searchFilters input {
+    font-size: 1.1em;
+    border-radius: 10px;
+    padding: 5px;
+    border: 1px solid gray;
+}
+
+.searchFilters button {
+    border-radius: 10px;
+    border: 2px solid green;
+    background-color: green;
+    color: white;
+    font-size: 1.2em;
+    padding: 5px;
+}
+
+.foundVacanciesContainer {
+    margin-left: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.cCheckbox {
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+}
+
+.cCheckbox label {
+    padding-left: 5px;
+}

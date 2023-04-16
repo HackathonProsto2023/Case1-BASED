@@ -1,13 +1,17 @@
 import React from 'react';
 import {observer} from "mobx-react-lite";
-import company from "../../../store/Company";
 import VacancyItem from "../VacancyItem/VacancyItem";
+import IVacancy from "../../../models/IVacancy";
 
-const VacancyList = observer(() => {
+interface props {
+    vacancies: IVacancy[]
+}
+
+const VacancyList = observer(({vacancies}: props) => {
     return (
         <div>
-            {company.vacancies.length
-                ? company.vacancies.map((vacancy) => <VacancyItem vacancy={vacancy}/>)
+            {vacancies.length
+                ? vacancies.map((vacancy) => <VacancyItem vacancy={vacancy}/>)
                 : 'Добавьте вакансию'
             }
         </div>

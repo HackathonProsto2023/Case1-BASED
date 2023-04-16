@@ -16,7 +16,7 @@ const VacancyItem = ({vacancy}: props) => {
 
     return (
         <div className={'flex VacancyItem'}>
-                <Link to={`/recruiter/vacancy/${vacancy.id}`}>Вакансия: {vacancy.name}</Link>
+                <Link to={`/applicant/vacancy/${vacancy.id}`}>Вакансия: {vacancy.name}</Link>
                 <div>Дата создания: {vacancy.date.toString()}</div>
                 <Button text={'Удалить'} handler={() => removeVacancy(vacancy.id)}/>
         </div>
