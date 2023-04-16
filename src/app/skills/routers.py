@@ -71,8 +71,8 @@ async def add_vacancy_skill(skill_: SkillChanging, role: str = Body(..., embed=T
         )
 
 
-@skills_router.delete("/applicant")
-@skills_router.delete("/vacancy")
+@skills_router.post("/applicant/delete")
+@skills_router.post("/vacancy/delete")
 async def delete_applicant_skill(skill_: SkillChanging, role: str = Body(..., embed=True),
                            session: AsyncSession = Depends(get_async_session)):
     try:
@@ -91,7 +91,7 @@ async def delete_applicant_skill(skill_: SkillChanging, role: str = Body(..., em
             statement = delete(vacancy_skill).where(skill_id=skill_data["id"], vacancy_id=skill_.id)
 
         await session.execute(statement)
-        session.commit()
+        await session.commit()
     except AssertionError:
         raise HTTPException(
             status_code=403,
