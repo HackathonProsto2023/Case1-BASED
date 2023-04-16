@@ -6,7 +6,7 @@ from src.app.database import get_async_session
 from src.app.companies.schemas import *
 from src.app.companies.models import *
 
-from sqlalchemy import insert, select, update
+from sqlalchemy import insert, select, update, delete
 
 from src.app.users.models import user, city
 
@@ -108,6 +108,30 @@ async def update_vacancy(id_: int, item: VacancyUpdate, session: AsyncSession = 
         )
     except Exception as error:
         return HTTPException(
+            status_code=500,
+            detail=error.args
+        )
+
+@company_router.delete("/vacancy/{id_}")
+async def delete_vacancy(id_:int,session: AsyncSession = Depends(get_async_session)):
+    try:
+        query = select(vacancy).where(vacancy.c.id == id_)
+        is_exist = await session.execute(query)
+        await session.commit()
+        is_exist.one()
+        statement = delete(vacancy).where(vacancy.c.id == id_)
+        await session.execute(statement)
+        await session.commit()
+        return {
+            "status_code": "200"
+        }
+    except sqlalchemy.exc.NoResultFound:
+        raise HTTPException(
+            status_code=400,
+            detail="Vacancy not found"
+        )
+    except Exception as error:
+        raise HTTPException(
             status_code=500,
             detail=error.args
         )
