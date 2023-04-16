@@ -2,7 +2,6 @@ from sqlalchemy import MetaData, Table, Column, Integer, String, Sequence, Forei
 
 metadata = MetaData()
 
-
 city = Table(
     "cities",
     metadata,
@@ -14,7 +13,7 @@ user = Table(
     "users",
     metadata,
     Column("id", Integer, Sequence("users_id_seq", metadata=metadata), primary_key=True),
-    Column("login", String, nullable=False),
+    Column("login", String, nullable=False, unique=True),
     Column("role", String, nullable=False),
     Column("profile_id", Integer, ForeignKey("profiles.id"))
 )
