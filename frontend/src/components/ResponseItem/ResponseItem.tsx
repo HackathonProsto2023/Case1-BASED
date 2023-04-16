@@ -13,7 +13,7 @@ const ResponseItem = ({response}:props) => {
         <div className={'flex applicantData'}>
             <div>
                 <div><Link to={`/recruiter/applicant/${response.applicantId}`}>ФИО: {response.applicantName}</Link></div>
-                <div><Link to={`/recruiter/vacancy/${response.vacancyId}`}>Вакансия: {response.vacancyName}</Link></div>
+                <div><Link to={`/recruiter//${response.vacancyId}`}>Вакансия: {response.vacancyName}</Link></div>
                 <div>Процент решенных заданий: {response.testResult}%</div>
                 <div>Отправлено: {response.date.toString()}</div>
             </div>

@@ -1,14 +1,8 @@
 .keySkillForm {
-    margin-top: 10px;
     margin-bottom: 10px;
-    width: 400px;
+    width: 300px;
     display: flex;
     flex-direction: column;
-}
-
-.keySkillForm input {
-    margin-top: 5px;
-    margin-bottom: 5px;
 }
 
 .inputDiv {
@@ -18,6 +12,7 @@
 
 .keySkillsList {
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
-    width: 400px;
+    width: 300px;
 }

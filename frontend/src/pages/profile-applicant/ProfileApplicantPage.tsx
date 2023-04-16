@@ -5,18 +5,29 @@ import user from "../../store/User";
 import {observer} from "mobx-react-lite";
 import ResponseResultItem from "../../components/ResponseResultItem/ResponseResultItem";
 import Label from "../../components/UI/Label/Label";
-import KeySkillsForm from "../../components/KeySkillsForm/KeySkillsForm";
+import KeySkillForm from "../../components/KeySkillBlock/KeySkillForm/KeySkillForm";
+import KeySkillBlock from "../../components/KeySkillBlock/KeySkillBlock";
 
 const ProfileApplicantPage = observer(() => {
     const updateApplicantProfile = (description: string) => {
 
     }
 
+    const addKeySkill = (inputKeySkill: string) => {
+        if (inputKeySkill) {
+            user.addSkill(inputKeySkill)
+        }
+    }
+
+    const removeSkill = (keySkill: string) => {
+        user.removeSkill(keySkill)
+    }
+
     return (
         <div className={"container"}>
             <div className={"flex"}>
                 <ProfileInfo name={user.profile?.name || ''} description={user.profile?.description || ''} request={updateApplicantProfile} />
-                <KeySkillsForm/>
+                <KeySkillBlock addHandler={addKeySkill} removeHandler={removeSkill} keySkills={user.profile.keySkills}/>
                 <div style={{display: "flex", flexDirection: "column"}}>
                     <Label text="Загрузите сюда свое резюме:"/>
                     <input type="file" style={{marginLeft: "10px"}}/>
