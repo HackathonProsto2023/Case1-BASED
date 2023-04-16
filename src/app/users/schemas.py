@@ -8,6 +8,6 @@ class User(BaseModel):
 
 class ProfileUpdate(BaseModel):
     name: str
-    city_id: str
+    city_id: int
     description: str
 

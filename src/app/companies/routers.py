@@ -61,6 +61,12 @@ async def get_vacancy(id_: int, session: AsyncSession = Depends(get_async_sessio
         result = await session.execute(query)
         vacancy_data = dict(result.mappings().one())
 
+        if not vacancy_data:
+            HTTPException(
+                status_code=400,
+                detail="Vacancy not found"
+            )
+
         query = select(profile).where(profile.c.id == id_)
         result = await session.execute(query)
         profile_data = dict(result.mappings().one())
@@ -112,8 +118,9 @@ async def update_vacancy(id_: int, item: VacancyUpdate, session: AsyncSession = 
             detail=error.args
         )
 
+
 @company_router.delete("/vacancy/{id_}")
-async def delete_vacancy(id_:int,session: AsyncSession = Depends(get_async_session)):
+async def delete_vacancy(id_: int, session: AsyncSession = Depends(get_async_session)):
     try:
         query = select(vacancy).where(vacancy.c.id == id_)
         is_exist = await session.execute(query)
