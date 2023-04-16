@@ -52,16 +52,17 @@ async def sort_by_skills(id_: int, session: AsyncSession = Depends(get_async_ses
 
     query = select(vacancy)
     result = await session.execute(query)
-    vacancies = result.mappings().all()
+    vacancies = list(dict(x) for x in result.mappings().all())
 
     for vacancy_ in vacancies:
-        query = select(vacancy_skill.c.skill_id).where(vacancy_skill.c.vacancy_id == vacancy["id"])
+        query = select(vacancy_skill.c.skill_id).where(vacancy_skill.c.vacancy_id == vacancy_["id"])
         result = await(session.execute(query))
         vacancy_skills = set(map(lambda x: x[0], result.all()))
 
         vacancy_["eq"] = len(vacancy_skills.intersection(applicant_skills))
+        print(vacancy_skills.intersection(applicant_skills), vacancy_skills, applicant_skills)
 
-    vacancies = sorted(vacancies, key=lambda x: x["eq"])
+    vacancies = sorted(list(vacancies), key=lambda x: x["eq"], reverse=True)
     return {
         "data": vacancies
     }
