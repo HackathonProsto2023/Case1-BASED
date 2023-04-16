@@ -4,6 +4,7 @@ from sqlalchemy import select
 
 from src.app.database import get_async_session
 from src.app.responses.models import response
+from src.app.skills.models import applicant_skill
 from src.app.users.models import user
 
 applicants_router = APIRouter(
@@ -17,7 +18,7 @@ async def get_responses_by_applicant(id_: int, session: AsyncSession = Depends(g
     try:
         query = select(user).where(user.c.id == id_)
         result = await session.execute(query)
-        if result.mappings().one():
+        if not result.mappings().one():
             raise HTTPException(
                 status_code=400,
                 detail="User not found"
@@ -36,3 +37,8 @@ async def get_responses_by_applicant(id_: int, session: AsyncSession = Depends(g
             status_code=500,
             detail=error.args
         )
+
+
+# @applicants_router.get("/{id_}/search")
+# def sort_by_skills(id_: int):
+#     select(applicant_skill).where("")

@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from .models import *
 from .schemas import *
 from src.app.database import get_async_session
+from ..skills.models import applicant_skill, skill
 
 users_router = APIRouter(
     tags=["users"]
@@ -109,6 +110,17 @@ async def login(user_: User, session: AsyncSession = Depends(get_async_session))
 
             profile_.pop("city_id")
             profile_["city"] = city_
+
+            if user_.role == "applicant":
+                query = select(applicant_skill).where(applicant_skill.c.applicant_id == data["id"])
+                result = await session.execute(query)
+                skills = tuple(map(lambda x: x[0], result.all()))
+                query = select(skill.c.name).where(
+                    skill.c.id.in_(skills)
+                )
+                result = await session.execute(query)
+                skills = list(map(lambda x: x[0], result.all()))
+                data["skills"] = skills
 
             data.pop("profile_id")
             data["profile"] = profile_

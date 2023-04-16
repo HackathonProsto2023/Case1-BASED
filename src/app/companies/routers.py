@@ -144,6 +144,7 @@ async def delete_vacancy(id_: int, session: AsyncSession = Depends(get_async_ses
             detail=error.args
         )
 
+
 @company_router.get("/{company_id_}/vacancies")
 async def get_vacancy_to_company(company_id_: int, session: AsyncSession = Depends(get_async_session)):
     try:
@@ -171,6 +172,7 @@ async def get_vacancy_to_company(company_id_: int, session: AsyncSession = Depen
             status_code=500,
             detail=error.args
         )
+
 
 @company_router.get("/vacancy/{vacancy_id_}/responses")
 async def get_responses_to_vacancy(vacancy_id_: int, session: AsyncSession = Depends(get_async_session)):
