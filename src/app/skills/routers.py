@@ -105,15 +105,19 @@ async def delete_applicant_skill(skill_: SkillChanging, role: str = Body(..., em
             query = select(applicant_skill).where(
                 applicant_skill.c.skill_id == skill_data["id"] and applicant_skill.c.applicant_id == skill_.id)
             result = await session.execute(query)
-            if not result.mappings().all():
-                statement = delete(applicant_skill).where(skill_id=skill_data["id"], applicant_id=skill_.id)
+            if result.mappings().all():
+                statement = delete(applicant_skill).where(
+                    applicant_skill.c.skill_id == skill_data["id"] and applicant_skill.c.applicant_id == skill_.id
+                )
                 await session.execute(statement)
         else:
             query = select(vacancy_skill).where(
                 vacancy_skill.c.skill_id == skill_data["id"] and vacancy_skill.c.vacancy_id == skill_.id)
             result = await session.execute(query)
-            if not result.mappings().all():
-                statement = delete(vacancy_skill).where(skill_id=skill_data["id"], vacancy_id=skill_.id)
+            if result.mappings().all():
+                statement = delete(vacancy_skill).where(
+                    vacancy_skill.c.skill_id == skill_data["id"] and vacancy_skill.c.vacancy_id == skill_.id
+                )
                 await session.execute(statement)
 
         await session.commit()
