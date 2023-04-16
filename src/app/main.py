@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from src.app.recruitors.routers import recruitor_router
 from src.app.responses.routers import response_router
 from src.app.users.routers import users_router
 from src.app.companies.routers import company_router
@@ -28,3 +29,4 @@ app.include_router(users_router)
 app.include_router(company_router)
 app.include_router(skills_router)
 app.include_router(applicants_router)
+app.include_router(recruitor_router)
