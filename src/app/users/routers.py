@@ -164,3 +164,4 @@ async def update_profile(id_: int, profile_: ProfileUpdate, session: AsyncSessio
             status_code=500,
             detail=error.args
         )
+

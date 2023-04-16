@@ -144,7 +144,7 @@ async def delete_vacancy(id_: int, session: AsyncSession = Depends(get_async_ses
             detail=error.args
         )
 
-@company_router.get("/{id_}/vacancies")
+@company_router.get("/{company_id_}/vacancies")
 async def get_vacancy_to_company(company_id_: int, session: AsyncSession = Depends(get_async_session)):
     try:
         query = select(vacancy).where(vacancy.c.company_id == company_id_)
@@ -172,7 +172,7 @@ async def get_vacancy_to_company(company_id_: int, session: AsyncSession = Depen
             detail=error.args
         )
 
-@company_router.get("/vacancy/{id_}/responses")
+@company_router.get("/vacancy/{vacancy_id_}/responses")
 async def get_responses_to_vacancy(vacancy_id_: int, session: AsyncSession = Depends(get_async_session)):
     try:
         query = select(response).where(response.c.vacancy_id == vacancy_id_)
