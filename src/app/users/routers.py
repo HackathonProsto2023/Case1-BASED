@@ -20,6 +20,22 @@ async def add_city(city_name: str = Body(..., embed=True), session: AsyncSession
     await session.commit()
 
 
+@users_router.get("/all_cities")
+async def get_all_cities(session: AsyncSession = Depends(get_async_session)):
+    try:
+        query = select(city)
+        result = await session.execute(query)
+        return {
+            "status_code": 200,
+            "data": list(result.mappings().all())
+        }
+    except Exception as error:
+        raise HTTPException(
+            status_code=500,
+            detail=error.args
+        )
+
+
 @users_router.post("/registration")
 async def add_user(user_: User, session: AsyncSession = Depends(get_async_session)):
     try:
@@ -122,8 +138,19 @@ async def login(user_: User, session: AsyncSession = Depends(get_async_session))
 @users_router.put("/profile/{id_}")
 async def update_profile(id_: int, profile_: ProfileUpdate, session: AsyncSession = Depends(get_async_session)):
     try:
-        statement = update(profile).where(profile.c.id == id_).values(**profile_.dict())
+        query = select(city).where(city.c.name == profile_.city)
+        result = await session.execute(query)
+        city_data = dict(result.mappings().one())
+        if not city_data:
+            await add_city(profile_.city, session)
+            result = await session.execute(query)
+            city_data = dict(result.mappings().one())
+
+        statement = update(profile).where(profile.c.id == id_).values(
+            name=profile_.name, city_id=city_data["id"], description=profile_.description
+        )
         await session.execute(statement)
+        await session.commit()
         return {
             "status_code": 200
         }

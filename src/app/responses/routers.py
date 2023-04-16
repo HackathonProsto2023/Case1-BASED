@@ -3,7 +3,6 @@ from sqlalchemy import insert, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 import sqlalchemy.exc
 
-from random import randint as rdi
 from src.app.database import get_async_session
 from src.app.responses.models import response
 from src.app.responses.schemas import ResponseCreate
@@ -38,7 +37,7 @@ async def add_response(response_: ResponseCreate, session: AsyncSession = Depend
 
 
 @response_router.get("/{id_}")
-async def get_response(id_: int, session: AsyncSession = Depends(get_async_session)):
+async def get_response_by_id(id_: int, session: AsyncSession = Depends(get_async_session)):
     try:
         query = select(response).where(response.c.id == id_)
         result = await session.execute(query)
@@ -61,7 +60,7 @@ async def get_response(id_: int, session: AsyncSession = Depends(get_async_sessi
 
 
 @response_router.put("/{id_}/answer")
-async def update_vacancy(id_: int, answer: str = Body(..., embed=True),
+async def answer_to_response(id_: int, answer: str = Body(..., embed=True),
                          session: AsyncSession = Depends(get_async_session)):
     try:
         statement = update(response).where(response.c.id == id_).values(answer=answer)
@@ -81,3 +80,8 @@ async def update_vacancy(id_: int, answer: str = Body(..., embed=True),
             status_code=500,
             detail=error.args
         )
+
+
+# @response_router.get("")
+# async def get_responses_by_applicant()
+
