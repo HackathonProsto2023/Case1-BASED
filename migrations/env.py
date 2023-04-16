@@ -6,7 +6,7 @@ from sqlalchemy import pool
 from alembic import context
 
 from src.app.configs.config import DB_USER, DB_PSWD, DB_HOST, DB_NAME
-from src.app.models.models import metadata as common_metadata
+from src.app.skills.models import metadata as common_metadata
 from src.app.users.models import metadata as users_metadata
 from src.app.companies.models import metadata as company_metadata
 
