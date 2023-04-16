@@ -2,6 +2,7 @@ import {makeAutoObservable} from "mobx";
 import IRecruiter from "../models/IRecruiter";
 import IResponse from "../models/IResponse";
 import IVacancy from "../models/IVacancy";
+import {workerData} from "worker_threads";
 
 class Company {
     recruiters: IRecruiter[] = [
@@ -11,7 +12,7 @@ class Company {
         {id: 4, name: 'Artem'},
     ];
     vacancies: IVacancy[] = [
-        {id: 1, name: 'Junior', description: 'Какое то описание', keySkills: ['Java', 'Spring', 'PostgreSQL'], date: new Date(), },
+        {id: 1, name: 'Junior', description: 'Какое то описание', keySkills: ['Java', 'Spring', 'PostgreSQL'], date: new Date()},
         {id: 2, name: 'Middle', description: 'Какое то описание', keySkills: ['Java', 'Spring', 'PostgreSQL'], date: new Date()},
         {id: 3, name: 'Senior', description: 'Какое то описание', keySkills: ['Java', 'Spring', 'PostgreSQL'], date: new Date()},
         {id: 4, name: 'Senior plus', description: 'Какое то описание', keySkills: ['Java', 'Spring', 'PostgreSQL'], date: new Date()},
@@ -38,8 +39,36 @@ class Company {
         this.vacancies.push(vacancy);
     }
 
+
+    updateVacancy(vacancyId: number, name: string, description: string) {
+        this.vacancies = this.vacancies.map((vacancy) => {
+            if (vacancy.id === vacancyId) {
+                return {...vacancy, name, description}
+            }
+            return vacancy;
+        })
+    }
+
     removeVacancy(id: number) {
         this.vacancies = this.vacancies.filter((vacancy) => vacancy.id !== id);
+    }
+
+    addKeySkill(vacancyId: number, keySkill: string) {
+        this.vacancies = this.vacancies.map((vacancy) => {
+            if (vacancy.id === vacancyId) {
+                return {...vacancy, keySkills: [...vacancy.keySkills, keySkill]}
+            }
+            return vacancy;
+        })
+    }
+
+    removeKeySkill(vacancyId: number, keySkill: string) {
+        this.vacancies = this.vacancies.map((vacancy) => {
+            if (vacancy.id === vacancyId) {
+                return {...vacancy, keySkills: vacancy.keySkills.filter((skill) => skill !== keySkill)}
+            }
+            return vacancy;
+        })
     }
 }
 
