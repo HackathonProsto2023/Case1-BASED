@@ -9,4 +9,4 @@ class VacancyCreate(BaseModel):
 class VacancyUpdate(BaseModel):
     title: str
     description: str
-    company_id: str
+    company_id: int

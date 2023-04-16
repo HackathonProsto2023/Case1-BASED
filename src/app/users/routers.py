@@ -36,7 +36,7 @@ async def add_user(user_: User, session: AsyncSession = Depends(get_async_sessio
 
         query = select(city)
         result = await session.execute(query)
-        default_city = dict(result.mappings().one())
+        default_city = dict(result.mappings().first())
 
         statement = insert(profile).values(name="", city_id=default_city["id"], description="").returning(profile)
         result = await session.execute(statement)
