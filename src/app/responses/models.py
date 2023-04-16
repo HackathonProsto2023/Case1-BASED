@@ -14,5 +14,5 @@ response = Table(
     Column("vacancy_id", Integer, ForeignKey("vacancies.id"), nullable=False),
     Column("response_date", Date, nullable=False, default=datetime.datetime.now().date()),
     Column("task_result", String, nullable=False),
-    Column("answer", String, nullable=False)
+    Column("answer", String, nullable=False, default="Проверяется")
 )

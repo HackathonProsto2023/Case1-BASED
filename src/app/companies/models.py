@@ -13,5 +13,5 @@ vacancy = Table(
     Column("description", String, nullable=False),
     Column("company_id", Integer, ForeignKey(profile.c.id)),
     Column("publish_date", Date, nullable=False, default=datetime.datetime.now().date()),
-    Column("status", String, nullable=False, default="проверяется")
+    Column("status", String, nullable=False, default="активно")
 )

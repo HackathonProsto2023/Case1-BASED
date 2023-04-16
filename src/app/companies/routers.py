@@ -81,7 +81,7 @@ async def get_vacancy(id_: int, session: AsyncSession = Depends(get_async_sessio
 async def update_vacancy(id_: int, item: VacancyUpdate, session: AsyncSession = Depends(get_async_session)):
     try:
         statement = update(vacancy).where(vacancy.c.id == id_).values(**item.dict())
-        result = await session.execute(statement)
+        await session.execute(statement)
 
         await session.commit()
         return {
