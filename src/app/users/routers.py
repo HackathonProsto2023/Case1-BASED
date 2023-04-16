@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, Body
 from fastapi.exceptions import HTTPException
 
-from sqlalchemy import insert, select
+from sqlalchemy import insert, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from .models import *
@@ -113,11 +113,22 @@ async def login(user_: User, session: AsyncSession = Depends(get_async_session))
         )
 
 
-@users_router.get("/profile")
-async def get_profile(item):
-    return f"{item}"
+# @users_router.get("/profile/{id_}")
+# async def get_profile(id_: int):
+#
+#     return f"{item}"
 
 
-@users_router.put("/profile")
-async def update_profile(item):
-    return f"{item}"
+@users_router.put("/profile/{id_}")
+async def update_profile(id_: int, profile_: ProfileUpdate, session: AsyncSession = Depends(get_async_session)):
+    try:
+        statement = update(profile).where(profile.c.id == id_).values(**profile_.dict())
+        await session.execute(statement)
+        return {
+            "status_code": 200
+        }
+    except Exception as error:
+        raise HTTPException(
+            status_code=500,
+            detail=error.args
+        )
