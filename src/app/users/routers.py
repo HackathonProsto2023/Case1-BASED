@@ -143,15 +143,17 @@ async def login(user_: User, session: AsyncSession = Depends(get_async_session))
 @users_router.put("/profile/{id_}")
 async def update_profile(id_: int, profile_: ProfileUpdate, session: AsyncSession = Depends(get_async_session)):
     try:
-        await add_city(profile_.city, session)
-
-        query = select(city).where(city.c.name == profile_.city)
+        query = select(city).where(city.c.id == profile_.city_id)
         result = await session.execute(query)
         city_data = dict(result.mappings().one())
 
-        statement = update(profile).where(profile.c.id == id_).values(
-            name=profile_.name, city_id=city_data["id"], description=profile_.description
-        )
+        if not city_data:
+            HTTPException(
+                status_code=400,
+                detail="City not found"
+            )
+
+        statement = update(profile).where(profile.c.id == id_).values(**profile_.dict())
         await session.execute(statement)
         await session.commit()
         return {
