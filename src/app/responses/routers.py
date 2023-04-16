@@ -6,7 +6,7 @@ import sqlalchemy.exc
 from random import randint as rdi
 from src.app.database import get_async_session
 from src.app.responses.models import response
-from src.app.responses.schemas import Response_input
+from src.app.responses.schemas import ResponseCreate
 
 response_router = APIRouter(
     prefix="/response",
@@ -15,11 +15,11 @@ response_router = APIRouter(
 
 
 @response_router.post("/")
-async def add_response(item: Response_input, session: AsyncSession = Depends(get_async_session)):
+async def add_response(response_: ResponseCreate, session: AsyncSession = Depends(get_async_session)):
     try:
-        statement = insert(response).values(**item.dict()).returning(response)
+        statement = insert(response).values(**response_.dict()).returning(response)
         result = await session.execute(statement)
-        response_data = result.mappings().one()
+        response_data = dict(result.mappings().one())
         await session.commit()
         return {
             "status_code": 200,
@@ -64,7 +64,7 @@ async def get_response(id_: int, session: AsyncSession = Depends(get_async_sessi
 async def update_vacancy(id_: int, answer: str = Body(..., embed=True),
                          session: AsyncSession = Depends(get_async_session)):
     try:
-        statement = update(response).where(response.c.id == id_).values(answer=answer, task_result=str(rdi(1, 100)))
+        statement = update(response).where(response.c.id == id_).values(answer=answer)
         await session.execute(statement)
 
         await session.commit()

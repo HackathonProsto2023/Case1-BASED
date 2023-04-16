@@ -12,7 +12,7 @@ skills_router = APIRouter(
 )
 
 
-def add_skill(skill_name: str, session: AsyncSession = Depends(get_async_session)):
+async def add_skill(skill_name: str, session: AsyncSession = Depends(get_async_session)):
     try:
         statement = insert(skill).values(name=skill_name.lower()).returning(skill)
         result = await session.execute(statement)
@@ -26,7 +26,7 @@ def add_skill(skill_name: str, session: AsyncSession = Depends(get_async_session
         )
 
 
-def get_skill(skill_name: str, session: AsyncSession = Depends(get_async_session)):
+async def get_skill(skill_name: str, session: AsyncSession = Depends(get_async_session)):
     try:
         query = select(skill).where(
             skill.c.name.__contains__(skill_name.lower()) or skill_name.lower().__contains__(skill.c.name)
@@ -43,7 +43,7 @@ def get_skill(skill_name: str, session: AsyncSession = Depends(get_async_session
 
 @skills_router.post("/applicant")
 @skills_router.post("/vacancy/")
-def add_vacancy_skill(skill_: SkillChanging, role: str = Body(..., embed=True),
+async def add_vacancy_skill(skill_: SkillChanging, role: str = Body(..., embed=True),
                       session: AsyncSession = Depends(get_async_session)):
     try:
         assert role in ["applicant", "company", "recruiter"]
@@ -73,7 +73,7 @@ def add_vacancy_skill(skill_: SkillChanging, role: str = Body(..., embed=True),
 
 @skills_router.delete("/applicant")
 @skills_router.delete("/vacancy")
-def delete_applicant_skill(skill_: SkillChanging, role: str = Body(..., embed=True),
+async def delete_applicant_skill(skill_: SkillChanging, role: str = Body(..., embed=True),
                            session: AsyncSession = Depends(get_async_session)):
     try:
         assert role in ["applicant", "company", "recruiter"]

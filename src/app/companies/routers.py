@@ -61,6 +61,20 @@ async def get_vacancy(id_: int, session: AsyncSession = Depends(get_async_sessio
         result = await session.execute(query)
         vacancy_data = dict(result.mappings().one())
 
+        query = select(profile).where(profile.c.id == id_)
+        result = await session.execute(query)
+        profile_data = dict(result.mappings().one())
+
+        query = select(city).where(city.c.id == profile_data["city_id"])
+        result = await session.execute(query)
+        city_ = dict(result.mappings().one())
+
+        profile_data.pop("city_id")
+        profile_data["city"] = city_
+
+        vacancy_data.pop("company_id")
+        vacancy_data["company"] = profile_data
+
         return {
             "status_code": 200,
             "data": vacancy_data,
