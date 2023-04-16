@@ -15,6 +15,7 @@ const LoginForm = () => {
             const res = await authApi.login(login, role);
             console.log(res.data.data);
             user.setUser(res.data.data);
+            console.log(user.profile);
         }
     }
 

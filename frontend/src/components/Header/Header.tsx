@@ -11,9 +11,14 @@ const Header = observer(() => {
             <Link to={'/'} style={{textDecoration: 'none'}}>
                 <div className={'header_title'}>Пульса.net</div>
             </Link>
+
+
             {user.id
                 ?
                 <div className={'flex'} style={{alignItems: 'center'}}>
+                    <Link to={'/search'} style={{textDecoration: 'none', margin: '0 500px 0 0'}}>
+                        <Button text={'Найти вакансию'}/>
+                    </Link>
                     <Link
                         className={'title'}
                         to={user.role === 'applicant' ? '/applicant/profile' : '/recruiter/profile'}

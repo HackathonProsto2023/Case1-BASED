@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import "../profile-recruiter/ProfileRecruiterPageStyle.css"
 import ResponseList from "../../components/ResponseList/ResponseList";
 import ProfileInfo from "../../components/ProfileInfo/ProfileInfo";
@@ -7,14 +7,28 @@ import VacancyBlock from "../../components/VacancyBlock/VacancyBlock";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import user from "../../store/User";
 import {observer} from "mobx-react-lite";
+import {profileApi} from "../../API/profileApi";
+import ICity from "../../models/ICity";
+import city from "../../store/City";
+import {companyApi} from "../../API/companyApi";
+import company from "../../store/Company";
 
 const ProfileRecruiterPage = observer(() => {
 
-
-    const updateRecruiterProfile = (name: string, description: string) => {
-
-        // user.update(name, description);
+    const updateRecruiterProfile = async (name: string, description: string, city_id: number) => {
+        const res = await profileApi.update(user.id, name, description, city_id);
+        if (res.status === 200) {
+            const newCity: ICity =  city.cities.filter((city) => city_id === city.id)[0];
+            user.update(name, description, newCity);
+        }
     }
+
+    useEffect(() => {
+        (async () => {
+            const res = await companyApi.getVacancies(user.id);
+            company.setVacancies(res.data.data);
+        })();
+    }, [])
 
     return (
         <div className={'container'}>

@@ -5,6 +5,9 @@ import Button from "../UI/Button/Button";
 import Input from "../UI/Input/Input";
 import {observer} from "mobx-react-lite";
 import city from "../../store/City";
+import {profileApi} from "../../API/profileApi";
+import user from "../../store/User";
+import ICity from "../../models/ICity";
 
 interface props {
     name: string;

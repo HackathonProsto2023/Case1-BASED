@@ -38,12 +38,13 @@ const App = observer(() => {
               ?
               <Route path="applicant" >
                 <Route path="profile" element={<ProfileApplicantPage/>} />
-                <Route path="search" element={<SearchVacancyPage/>} />
                 <Route path="vacancy/:id" element={<VacancyPage/>} />
                 <Route path="vacancy/:id/test" element={<TestPage/>} />
               </Route>
               : null
           }
+
+            <Route path="search" element={<SearchVacancyPage/>} />
 
           {
             user.role === 'recruiter' || user.role === 'company'

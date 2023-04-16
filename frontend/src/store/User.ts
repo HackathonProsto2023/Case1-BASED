@@ -1,6 +1,7 @@
 import {makeAutoObservable} from "mobx";
 import IUser from "../models/IUser";
 import IProfile from "../models/IProfile";
+import ICity from "../models/ICity";
 
 class User {
     id: number = 0;
@@ -25,10 +26,19 @@ class User {
         this.id = user.id;
         this.login = user.login;
         this.role = user.role;
-        this.profile = user.profile;
+        this.profile = {
+            id: user.profile.id,
+            name: user.profile.name || '',
+            description: user.profile.description || '',
+            keySkills: user.profile.keySkills,
+            city: {
+                id: 1,
+                name: 'Санкт-Петербург'
+            }
+        };
     }
 
-    update(name: string, description: string) {
+    update(name: string, description: string, city: ICity) {
         this.profile.name = name;
         this.profile.description = description;
     }
@@ -49,7 +59,9 @@ class User {
     }
 
     addSkill(skill: string) {
-        this.profile?.keySkills.push(skill);
+        if (this.profile.keySkills) {
+            this.profile.keySkills.slice().push(skill);
+        }
     }
 
     removeSkill(name: string) {

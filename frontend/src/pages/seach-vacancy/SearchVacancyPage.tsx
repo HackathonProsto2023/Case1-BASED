@@ -1,18 +1,22 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import "./SearchVacansyPageStyle.css"
 import PageTitle from "../../components/PageTitle/PageTitle";
 import Label from "../../components/UI/Label/Label";
 import company from "../../store/Company";
 import VacancyItem from "../../components/VacancyBlock/VacancyItem/VacancyItem";
+import {searchApi} from "../../API/seachApi";
+import user from "../../store/User";
 
 const SearchVacancyPage = () => {
     const [vacancyName, setVacancyName] = useState('')
-    // const onSearchBtnClicked = (vacName: string) => {
-    //     if (vacName) {
-    //         company.addVacancy({id: 17, name: "A?", description: "Description of A?", date: new Date(), keySkills: ['Java', 'Spring', 'PostgreSQL']})
-    //         setVacancyName("")
-    //     }
-    // }
+    const [vacancies, setVacancies] = useState([])
+
+    useEffect(() => {
+        (async () => {
+            const res = await searchApi.search(user.id);
+            setVacancies(res.data.data);
+        })()
+    }, [])
 
     return (
         <div className="container">
@@ -39,7 +43,7 @@ const SearchVacancyPage = () => {
                 <div className="foundVacanciesContainer">
                     <Label text="Найденные вакансии"/>
                     <div style={{width: '100%'}}>
-                        {company.vacancies.map(vacancy => <VacancyItem vacancy={vacancy} />)}
+                        {vacancies.map(vacancy => <VacancyItem vacancy={vacancy} />)}
                     </div>
                 </div>
             </div>

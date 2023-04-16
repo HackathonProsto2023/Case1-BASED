@@ -7,18 +7,24 @@ import ResponseResultItem from "../../components/ResponseResultItem/ResponseResu
 import Label from "../../components/UI/Label/Label";
 import KeySkillBlock from "../../components/KeySkillBlock/KeySkillBlock";
 import {skillApi} from "../../API/skillApi";
+import {profileApi} from "../../API/profileApi";
+import ICity from "../../models/ICity";
+import city from "../../store/City";
 
 const ProfileApplicantPage = observer(() => {
     const [resume, setResume] = useState<any>();
-    const updateApplicantProfile = (description: string) => {
-
+    const updateApplicantProfile = async (name: string, description: string, city_id: number) => {
+        const res = await profileApi.update(user.id, name, description, city_id);
+        const newCity: ICity = city.cities.filter((city) => city.id === city_id)[0];
+        user.update(name, description, newCity);
     }
 
     const addKeySkill = async (inputKeySkill: string) => {
         if (inputKeySkill) {
             const res = await skillApi.addSkillToApplicant(user.id, user.role, inputKeySkill);
-            console.log(res);
-            user.addSkill(inputKeySkill)
+            if (res.status === 200) {
+                user.addSkill(inputKeySkill)
+            }
         }
     }
 
@@ -30,7 +36,6 @@ const ProfileApplicantPage = observer(() => {
         const reader = new FileReader();
         reader.onload = (e) => {
             setResume(e.target?.result);
-            console.log(e.target?.result);
         };
         reader.readAsDataURL(event.target.files[0]);
         // console.log(event.target.files[0]);
@@ -49,8 +54,8 @@ const ProfileApplicantPage = observer(() => {
                         style={{marginLeft: "10px"}}
                         onChange={(event) => showPicture(event)}
                     />
+                    <img src={resume} style={{maxWidth: '600px', border: '2px solid green'}} alt="resume"/>
                 </div>
-                <img src={resume} alt="resume"/>
             </div>
             <div className="responseResults">
                 <Label text={"Результаты откликов"} />
