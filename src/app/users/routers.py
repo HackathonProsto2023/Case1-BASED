@@ -21,29 +21,42 @@ async def add_city(city_name: str = Body(..., embed=True), session: AsyncSession
 
 
 @users_router.post("/registration")
-async def add_user(user_: UserCreate, session: AsyncSession = Depends(get_async_session)):
+async def add_user(user_: User, session: AsyncSession = Depends(get_async_session)):
     try:
         assert user_.role in ["applicant", "company", "recruiter"]
 
-        query = select(city).where(city.c.name == "Санкт-Петербург")
-        default_city = await session.execute(query)
+        query = select(user).where(user.c.login == user_.login)
+        result = await session.execute(query)
+        data = result.all()
+        if data:
+            raise HTTPException(
+                status_code=400,
+                detail="Login already exists"
+            )
 
-        statement = insert(profile).values(name="", city_id=default_city.one()[0], description="").returning(profile)
+        query = select(city)
+        result = await session.execute(query)
+        default_city = dict(result.mappings().one())
+
+        statement = insert(profile).values(name="", city_id=default_city["id"], description="").returning(profile)
         result = await session.execute(statement)
-        profile_data = {column.key: value for column, value in zip(profile.columns, result.one())}
+        profile_data = dict(result.mappings().one())
+        profile_data.pop("city_id")
+        profile_data["city"] = default_city
 
         statement = insert(user).values(**user_.dict(), profile_id=profile_data["id"]).returning(user)
         result = await session.execute(statement)
-        user_data = result.one()
-
-        print(profile_data)
-        user_data = user_data[:3] + tuple(profile_data)
+        user_data = dict(result.mappings().one())
+        user_data.pop("profile_id")
+        user_data["profile_id"] = profile_data
 
         await session.commit()
         return {
             "status": 200,
-            "data": {column.key: value for column, value in zip(user.columns, user_data)}
+            "data": user_data
         }
+    except HTTPException:
+        raise
     except AssertionError:
         raise HTTPException(
             status_code=400,

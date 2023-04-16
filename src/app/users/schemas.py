@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class UserCreate(BaseModel):
+class User(BaseModel):
     login: str
     role: str
 
