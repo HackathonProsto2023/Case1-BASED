@@ -14,17 +14,6 @@ skill = Table(
     Column("name", String, nullable=False)
 )
 
-vacancy = Table(
-    "vacancies",
-    metadata,
-    Column("id", Integer, Sequence("vacancies_id_seq", metadata=metadata), primary_key=True),
-    Column("title", String, nullable=False),
-    Column("description", String, nullable=False),
-    Column("company_id", Integer, ForeignKey(profile.c.id), nullable=False),
-    Column("publish_date", Date, nullable=False, default=datetime.datetime.now().date()),
-    Column("status", String, nullable=False, default="проверяется")
-)
-
 response = Table(
     "responses",
     metadata,

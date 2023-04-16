@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from src.app.responses.routers import response_router
 from src.app.users.routers import users_router
-from src.app.vacancies.routers import vacancies_router
+from src.app.companies.routers import vacancies_router
 
 app = FastAPI(
     title= "Hi Mark"

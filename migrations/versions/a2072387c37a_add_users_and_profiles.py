@@ -33,7 +33,7 @@ def upgrade() -> None:
                     sa.ForeignKeyConstraint(['profile_id'], ['profiles.id'], ),
                     sa.PrimaryKeyConstraint('id')
                     )
-    op.create_table('vacancies',
+    op.create_table('companies',
                     sa.Column('id', sa.Integer(), nullable=False),
                     sa.Column('title', sa.String(), nullable=False),
                     sa.Column('description', sa.String(), nullable=False),
@@ -55,7 +55,7 @@ def upgrade() -> None:
                     sa.Column('question', sa.String(), nullable=False),
                     sa.Column('answer', sa.String(), nullable=False),
                     sa.Column('archived', sa.Boolean(), nullable=False),
-                    sa.ForeignKeyConstraint(['vacancy_id'], ['vacancies.id'], ),
+                    sa.ForeignKeyConstraint(['vacancy_id'], ['companies.id'], ),
                     sa.PrimaryKeyConstraint('id')
                     )
     op.create_table('responses',
@@ -66,14 +66,14 @@ def upgrade() -> None:
                     sa.Column('task_result', sa.String(), nullable=False),
                     sa.Column('answer', sa.String(), nullable=False),
                     sa.ForeignKeyConstraint(['applicant_id'], ['profiles.id'], ),
-                    sa.ForeignKeyConstraint(['vacancy_id'], ['vacancies.id'], ),
+                    sa.ForeignKeyConstraint(['vacancy_id'], ['companies.id'], ),
                     sa.PrimaryKeyConstraint('id')
                     )
     op.create_table('vacancy_skill',
                     sa.Column('vacancy_id', sa.Integer(), nullable=False),
                     sa.Column('skill_id', sa.Integer(), nullable=False),
                     sa.ForeignKeyConstraint(['skill_id'], ['skills.id'], ),
-                    sa.ForeignKeyConstraint(['vacancy_id'], ['vacancies.id'], ),
+                    sa.ForeignKeyConstraint(['vacancy_id'], ['companies.id'], ),
                     sa.PrimaryKeyConstraint('vacancy_id', 'skill_id')
                     )
     op.drop_table('applicants')
@@ -106,7 +106,7 @@ def downgrade() -> None:
     op.drop_table('responses')
     op.drop_table('questions')
     op.drop_table('applicant_skill')
-    op.drop_table('vacancies')
+    op.drop_table('companies')
     op.drop_table('users')
     op.drop_table('profiles')
     # ### end Alembic commands ###
