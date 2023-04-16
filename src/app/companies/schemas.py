@@ -7,7 +7,6 @@ class VacancyCreate(BaseModel):
 
 
 class VacancyUpdate(BaseModel):
-    id: int
     title: str
     description: str
     company_id: str
