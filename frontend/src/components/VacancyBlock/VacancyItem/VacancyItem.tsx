@@ -4,23 +4,27 @@ import {Link} from "react-router-dom";
 import Button from "../../UI/Button/Button";
 import './VacancyItem.css'
 import company from "../../../store/Company";
+import {observer} from "mobx-react-lite";
+import user from "../../../store/User";
 interface props {
     vacancy: IVacancy;
 }
 
-const VacancyItem = ({vacancy}: props) => {
+const VacancyItem = observer(({vacancy}: props) => {
 
     const removeVacancy = (id: number) => {
+
         company.removeVacancy(id);
     }
 
+
     return (
         <div className={'flex VacancyItem'}>
-                <Link to={`/applicant/vacancy/${vacancy.id}`}>Вакансия: {vacancy.name}</Link>
-                <div>Дата создания: {vacancy.date.toString()}</div>
+                <Link to={`${user.role === 'applicant' ? '/applicant' : '/recruiter'}/vacancy/${vacancy.id}`}>Вакансия: {vacancy.title}</Link>
+                <div>Дата создания: {vacancy.publish_date}</div>
                 <Button text={'Удалить'} handler={() => removeVacancy(vacancy.id)}/>
         </div>
     );
-};
+});
 
 export default VacancyItem;

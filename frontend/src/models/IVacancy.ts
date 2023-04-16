@@ -1,7 +1,7 @@
 export default interface IVacancy {
     id: number;
-    name: string;
+    title: string;
     description: string;
     keySkills: string[];
-    date: Date
+    publish_date: string
 }

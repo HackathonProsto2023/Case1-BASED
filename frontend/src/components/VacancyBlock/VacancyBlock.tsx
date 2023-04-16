@@ -3,6 +3,7 @@ import VacancyForm from "./VacancyForm/VacancyForm";
 import VacancyList from "./VacancyList/VacancyList";
 import {observer} from "mobx-react-lite";
 import Label from "../UI/Label/Label";
+import company from "../../store/Company";
 
 const VacancyBlock = observer(() => {
     return (
@@ -10,7 +11,7 @@ const VacancyBlock = observer(() => {
             <Label text={'Добавить вакансию'}/>
             <VacancyForm />
             <Label text={'Активные вакансии'}/>
-            <VacancyList vacancies={[]}/>
+            <VacancyList vacancies={company.vacancies}/>
         </div>
     );
 });

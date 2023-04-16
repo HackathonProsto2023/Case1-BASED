@@ -16,8 +16,8 @@ const Header = observer(() => {
                 <div className={'flex'} style={{alignItems: 'center'}}>
                     <Link
                         className={'title'}
-                        to={user.role === 'APPLICANT' ? 'applicant/profile' : 'recruiter/profile'}
-                    >{user.profile?.name}</Link>
+                        to={user.role === 'applicant' ? '/applicant/profile' : '/recruiter/profile'}
+                    >{user.login}</Link>
                     <Button text={'Выйти'} handler={() => user.clear()}/>
                 </div>
                 :

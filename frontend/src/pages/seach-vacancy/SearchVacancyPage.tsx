@@ -7,12 +7,13 @@ import VacancyItem from "../../components/VacancyBlock/VacancyItem/VacancyItem";
 
 const SearchVacancyPage = () => {
     const [vacancyName, setVacancyName] = useState('')
-    const onSearchBtnClicked = (vacName: string) => {
-        if (vacName) {
-            company.addVacancy({id: 17, name: "A?", description: "Description of A?", date: new Date(), keySkills: ['Java', 'Spring', 'PostgreSQL']})
-            setVacancyName("")
-        }
-    }
+    // const onSearchBtnClicked = (vacName: string) => {
+    //     if (vacName) {
+    //         company.addVacancy({id: 17, name: "A?", description: "Description of A?", date: new Date(), keySkills: ['Java', 'Spring', 'PostgreSQL']})
+    //         setVacancyName("")
+    //     }
+    // }
+
     return (
         <div className="container">
             <PageTitle text="Поиск вакансий"/>
@@ -20,7 +21,9 @@ const SearchVacancyPage = () => {
                 <input type="search" placeholder="Какую специальность ищете?"
                        onChange={(event) =>
                            setVacancyName(event.target.value)}/>
-                <button onClick={() => onSearchBtnClicked(vacancyName)}>Искать</button>
+                <button
+                    // onClick={() => onSearchBtnClicked(vacancyName)}
+                >Искать</button>
             </div>
             <div className="bottomContainer">
                 <div className="searchFilters">

@@ -2,20 +2,19 @@ import React, {useState} from 'react';
 import Input from "../../UI/Input/Input";
 import Button from "../../UI/Button/Button";
 import company from "../../../store/Company";
+import {companyApi} from "../../../API/companyApi";
+import user from "../../../store/User";
+import loginForm from "../../LoginForm/LoginForm";
 
 const VacancyForm = () => {
     const [vacancyName, setVacancyName] = useState<string>('');
     const [vacancyDescription, setVacancyDescription] = useState<string>('');
 
-    const addVacancy = (name: string, description: string) => {
+    const addVacancy = async (name: string, description: string) => {
         if (vacancyName && vacancyDescription) {
-            company.addVacancy({
-                id: Date.now(),
-                name,
-                description,
-                keySkills: [],
-                date: new Date()
-            });
+            const res = await companyApi.addVacancy(user.id, name, description);
+            console.log(res);
+            company.addVacancy(res.data.data);
             setVacancyName('');
             setVacancyDescription('');
         }

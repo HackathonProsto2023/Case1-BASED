@@ -8,6 +8,9 @@ import Input from "../../components/UI/Input/Input";
 import Button from "../../components/UI/Button/Button";
 import KeySkillBlock from "../../components/KeySkillBlock/KeySkillBlock";
 import {observer} from "mobx-react-lite";
+import {companyApi} from "../../API/companyApi";
+import user from "../../store/User";
+import {skillApi} from "../../API/skillApi";
 
 const ProfileVacancyPage = observer(() => {
     const {id = 0} = useParams();
@@ -22,20 +25,23 @@ const ProfileVacancyPage = observer(() => {
     }, [id, company.vacancies])
 
     useEffect(() => {
-        setVacancyName(vacancy?.name || '');
+        setVacancyName(vacancy?.title || '');
         setVacancyDescription(vacancy?.description || '');
     }, [vacancy])
 
-    const addKeySkill = (keySkill: string) => {
+    const addKeySkill = async (keySkill: string) => {
+        const res = await skillApi.addSkillToVacancy(+id, user.role, keySkill);
+        console.log(res);
         company.addKeySkill(+id, keySkill);
-
     }
 
     const removeKeySkill = (keySkill: string) => {
         company.removeKeySkill(+id, keySkill)
     }
 
-    const saveUpdates = (name: string, description: string) => {
+    const saveUpdates = async (name: string, description: string) => {
+        const res = await companyApi.updateVacancy(+id, name, description, user.id);
+        console.log(res);
         company.updateVacancy(+id, name, description);
         setEdit(false);
     }
@@ -58,14 +64,14 @@ const ProfileVacancyPage = observer(() => {
                             value={vacancyDescription}
                             onChange={(event) => setVacancyDescription(event.target.value)}
                         />
-                        <div>Дата создания: {vacancy?.date.toString()}</div>
+                        <div>Дата создания: {vacancy?.publish_date}</div>
                         <Button text={'Сохранить'} handler={() => saveUpdates(vacancyName, vacancyDescription)}/>
                     </div>
                     :
                     <div className={'flex_column'} style={{width: '300px'}}>
-                        <Label text={vacancy?.name || ''}/>
+                        <Label text={vacancy?.title || ''}/>
                         <div>{vacancy?.description}</div>
-                        <div>Дата создания: {vacancy?.date.toString()}</div>
+                        <div>Дата создания: {vacancy?.publish_date}</div>
                         <Button text={'Изменить'} handler={() => {
                             setEdit(true);
                         }}/>

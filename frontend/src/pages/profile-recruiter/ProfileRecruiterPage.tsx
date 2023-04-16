@@ -12,14 +12,15 @@ const ProfileRecruiterPage = observer(() => {
 
 
     const updateRecruiterProfile = (name: string, description: string) => {
-        user.update(name, description);
+
+        // user.update(name, description);
     }
 
     return (
         <div className={'container'}>
             <PageTitle text={'Профиль организации'}/>
             <div className={'flex'} style={{gap: '100px'}}>
-                <ProfileInfo name={user.profile.name} description={user.profile.description} request={updateRecruiterProfile}/>
+                <ProfileInfo name={user.profile?.name} description={user.profile?.description} city_id={user.profile.city.id} request={updateRecruiterProfile}/>
                 <RecruiterBlock />
             </div>
             <VacancyBlock />

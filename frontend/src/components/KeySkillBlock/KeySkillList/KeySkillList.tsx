@@ -10,7 +10,7 @@ interface props {
 const KeySkillList = observer(({keySkills, removeHandler}: props) => {
     return (
         <div className="keySkillsList">
-            {keySkills.map(keySkill => <KeySkillItem keySkill={keySkill} removeHandler={removeHandler}/> )}
+            {keySkills ? keySkills.map(keySkill => <KeySkillItem keySkill={keySkill} removeHandler={removeHandler}/>) : null}
         </div>
     );
 });

@@ -3,14 +3,14 @@ import IUser from "../models/IUser";
 import IProfile from "../models/IProfile";
 
 class User {
-    id: number = 1;
-    login: string = 'СБЕР';
+    id: number = 0;
+    login: string = '';
     role: string = 'APPLICANT';
     profile: IProfile = {
-        id: 1,
-        name: 'СБЕР',
-        description: 'Большое описание большое описание большое описание большое описание большое описание большое описание',
-        keySkills: ['Java', 'Python', 'SQL'],
+        id: 0,
+        name: '',
+        description: '',
+        keySkills: [],
         city: {
             id: 1,
             name: 'Санкт-Петербург'

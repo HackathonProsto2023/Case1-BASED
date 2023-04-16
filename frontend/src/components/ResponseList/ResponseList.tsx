@@ -26,7 +26,7 @@ const ResponseList = observer(() => {
                <Label text={'Отклики'}/>
                <select onChange={(event) => setFilter(+event.target.value)}>
                    <option value={0}>Все</option>
-                   {company.vacancies.map((vacancy) => <option value={vacancy.id}>{vacancy.name}</option>)}
+                   {company.vacancies.map((vacancy) => <option value={vacancy.id}>{vacancy.title}</option>)}
                </select>
            </div>
             {responses.map((response) => <ResponseItem
