@@ -80,8 +80,3 @@ async def answer_to_response(id_: int, answer: str = Body(..., embed=True),
             status_code=500,
             detail=error.args
         )
-
-
-# @response_router.get("")
-# async def get_responses_by_applicant()
-

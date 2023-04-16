@@ -9,6 +9,7 @@ from src.app.companies.models import *
 from sqlalchemy import insert, select, update, delete
 
 from src.app.users.models import user, city
+from src.app.responses.models import response
 
 company_router = APIRouter(
     prefix="/company",
@@ -150,7 +151,7 @@ async def get_vacancy_to_company(company_id_: int, session: AsyncSession = Depen
         result = await session.execute(query)
         vacancy_data = result.mappings().all()
         if not vacancy_data:
-            HTTPException(
+            raise HTTPException(
                 status_code=400,
                 detail="Vacancy not found"
             )
@@ -158,13 +159,44 @@ async def get_vacancy_to_company(company_id_: int, session: AsyncSession = Depen
             "status_code": 200,
             "data": vacancy_data,
         }
+    except HTTPException:
+        raise
     except sqlalchemy.exc.ProgrammingError:
-        return HTTPException(
+        raise HTTPException(
             status_code=400,
             detail="Id does not exist"
         )
     except Exception as error:
-        return HTTPException(
+        raise HTTPException(
+            status_code=500,
+            detail=error.args
+        )
+
+@company_router.get("/vacancy/{id_}/responses")
+async def get_responses_to_vacancy(vacancy_id_: int, session: AsyncSession = Depends(get_async_session)):
+    try:
+        query = select(response).where(response.c.vacancy_id == vacancy_id_)
+        result = await session.execute(query)
+        vacancy_data = result.mappings().all()
+
+        if not vacancy_data:
+            raise HTTPException(
+                status_code=400,
+                detail="Vacancy not found"
+            )
+        return {
+            "status_code": 200,
+            "data": vacancy_data,
+        }
+    except HTTPException:
+        raise
+    except sqlalchemy.exc.ProgrammingError:
+        raise HTTPException(
+            status_code=400,
+            detail="Id does not exist"
+        )
+    except Exception as error:
+        raise HTTPException(
             status_code=500,
             detail=error.args
         )
