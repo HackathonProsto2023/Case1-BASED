@@ -3,7 +3,7 @@ import "./VacancyPageStyle.css"
 import PageTitle from "../../components/PageTitle/PageTitle";
 import Label from "../../components/UI/Label/Label";
 import Button from "../../components/UI/Button/Button";
-import KeySkillItem from "../../components/KeySkillItem/KeySkillItem";
+import KeySkillItem from "../../components/KeySkillBlock/KeySkillItem/KeySkillItem";
 
 const VacancyPage = () => {
     return (
@@ -18,8 +18,8 @@ const VacancyPage = () => {
                 </div>
                 <div className="keySkillsArray">
                     <Label text="Ключевые навыки"/>
-                    <KeySkillItem keySkill="HTML"/>
-                    <KeySkillItem keySkill="CSS"/>
+                    <KeySkillItem keySkill="HTML" removeHandler={() => {}}/>
+                    <KeySkillItem keySkill="CSS" removeHandler={() => {}}/>
                 </div>
                 <div className="customerInfo">
                     <Label text="Организация: ЗАКАЗЧИК_NAME"/>
