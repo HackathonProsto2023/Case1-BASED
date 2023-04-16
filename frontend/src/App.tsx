@@ -12,27 +12,41 @@ import SearchApplicantPage from "./pages/seach-applicant/SearchApplicantPage";
 import ApplicantPage from "./pages/applicant/ApplicantPage";
 import './App.css';
 import ProfileVacancyPage from "./pages/profile-vacancy/ProfileVacancyPage";
+import user from "./store/User";
+import HomePage from "./pages/HomePage/HomePage";
 
 function App() {
   return (
       <Layout>
         <Routes>
+            <Route path="/" element={<HomePage/>}/>
           <Route path="/login" element={<LoginPage/>} />
           <Route path="/registration" element={<RegistrationPage/>} />
 
-          <Route path="applicant" >
-            <Route path="profile" element={<ProfileApplicantPage/>} />
-            <Route path="search" element={<SearchVacancyPage/>} />
-            <Route path="vaсancy/:id" element={<VacancyPage/>} />
-            <Route path="vaсancy/:id/test" element={<TestPage/>} />
-          </Route>
+          {user.role === 'APPLICANT'
+              ?
+              <Route path="applicant" >
+                <Route path="profile" element={<ProfileApplicantPage/>} />
+                <Route path="search" element={<SearchVacancyPage/>} />
+                <Route path="vacancy/:id" element={<VacancyPage/>} />
+                <Route path="vacancy/:id/test" element={<TestPage/>} />
+              </Route>
+              : null
+          }
 
-          <Route path="recruiter">
-            <Route path="profile" element={<ProfileRecruiterPage/>} />
-            <Route path="vacancy/:id" element={<ProfileVacancyPage/>} />
-            <Route path="seach" element={<SearchApplicantPage/>} />
-            <Route path="applicant/:id" element={<ApplicantPage/>} />
-          </Route>
+          {
+            user.role === 'RECRUITER' || user.role === 'COMPANY'
+                ?
+                <Route path="recruiter">
+                  <Route path="profile" element={<ProfileRecruiterPage/>} />
+                  <Route path="vacancy/:id" element={<ProfileVacancyPage/>} />
+                  <Route path="seach" element={<SearchApplicantPage/>} />
+                  <Route path="applicant/:id" element={<ApplicantPage/>} />
+                </Route>
+                : null
+           }
+
+           <Route path={'*'} element={<h1 style={{color: 'red'}}>Страница не найдена</h1>}/>
         </Routes>
       </Layout>
   );

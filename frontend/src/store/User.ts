@@ -5,7 +5,7 @@ import IProfile from "../models/IProfile";
 class User {
     id: number = 1;
     login: string = 'СБЕР';
-    role: string = 'RECRUITER';
+    role: string = 'APPLICANT';
     profile: IProfile = {
         id: 1,
         name: 'СБЕР',

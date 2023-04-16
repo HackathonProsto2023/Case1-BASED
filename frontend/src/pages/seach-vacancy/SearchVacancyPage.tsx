@@ -35,7 +35,7 @@ const SearchVacancyPage = () => {
                 </div>
                 <div className="foundVacanciesContainer">
                     <Label text="Найденные вакансии"/>
-                    <div className="array">
+                    <div style={{width: '100%'}}>
                         {company.vacancies.map(vacancy => <VacancyItem vacancy={vacancy} />)}
                     </div>
                 </div>

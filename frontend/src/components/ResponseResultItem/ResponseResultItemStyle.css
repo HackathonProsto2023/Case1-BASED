@@ -15,14 +15,14 @@
 }
 
 #vacancyName {
-    font-size: 1.5em;
-}
-
-#comment {
     font-size: 1.2em;
 }
 
+#comment {
+    font-size: 1.1em;
+}
+
 #isAccepted {
-    font-size: 1.5em;
+    font-size: 1.2em;
     font-weight: bold;
 }
