@@ -15,9 +15,14 @@ users_router = APIRouter(
 
 @users_router.post("/city")
 async def add_city(city_name: str = Body(..., embed=True), session: AsyncSession = Depends(get_async_session)):
-    statement = insert(city).values(name=city_name)
-    await session.execute(statement)
-    await session.commit()
+    query = select(city).where(city.c.name == city_name)
+    result = await session.execute(query)
+    city_data = dict(result.mappings().one())
+
+    if city_data:
+        statement = insert(city).values(name=city_name)
+        await session.execute(statement)
+        await session.commit()
 
 
 @users_router.get("/all_cities")
@@ -138,13 +143,11 @@ async def login(user_: User, session: AsyncSession = Depends(get_async_session))
 @users_router.put("/profile/{id_}")
 async def update_profile(id_: int, profile_: ProfileUpdate, session: AsyncSession = Depends(get_async_session)):
     try:
+        await add_city(profile_.city, session)
+
         query = select(city).where(city.c.name == profile_.city)
         result = await session.execute(query)
         city_data = dict(result.mappings().one())
-        if not city_data:
-            await add_city(profile_.city, session)
-            result = await session.execute(query)
-            city_data = dict(result.mappings().one())
 
         statement = update(profile).where(profile.c.id == id_).values(
             name=profile_.name, city_id=city_data["id"], description=profile_.description
