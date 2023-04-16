@@ -9,6 +9,7 @@ from src.app.configs.config import DB_USER, DB_PSWD, DB_HOST, DB_NAME
 from src.app.skills.models import metadata as common_metadata
 from src.app.users.models import metadata as users_metadata
 from src.app.companies.models import metadata as company_metadata
+from src.app.responses.models import metadata as responses_metadata
 
 import os
 import sys
@@ -34,7 +35,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = [users_metadata, common_metadata, company_metadata]
+target_metadata = [users_metadata, common_metadata, company_metadata, responses_metadata]
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

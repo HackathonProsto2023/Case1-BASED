@@ -1,6 +1,6 @@
 import datetime
 
-from sqlalchemy import MetaData, Table, Column, Integer, String, Boolean, Date, ForeignKey, Sequence
+from sqlalchemy import MetaData, Table, Column, Integer, String, Date, ForeignKey, Sequence
 
 from src.app.companies.models import vacancy
 from src.app.users.models import profile
@@ -16,5 +16,6 @@ response = Table(
     Column("vacancy_id", Integer, ForeignKey(vacancy.c.id), nullable=False),
     Column("response_date", Date, nullable=False, default=datetime.datetime.now().date()),
     Column("task_result", String, nullable=False),
-    Column("answer", String, nullable=False, default="Проверяется")
+    Column("answer", String, nullable=False, default="не просмотрено"),
+    Column("comment", String, nullable=False)
 )

@@ -16,7 +16,7 @@ response_router = APIRouter(
 @response_router.post("/")
 async def add_response(response_: ResponseCreate, session: AsyncSession = Depends(get_async_session)):
     try:
-        statement = insert(response).values(**response_.dict()).returning(response)
+        statement = insert(response).values(**response_.dict(), comment="").returning(response)
         result = await session.execute(statement)
         response_data = dict(result.mappings().one())
         await session.commit()
@@ -61,7 +61,7 @@ async def get_response_by_id(id_: int, session: AsyncSession = Depends(get_async
 
 @response_router.put("/{id_}/answer")
 async def answer_to_response(id_: int, answer: str = Body(..., embed=True),
-                         session: AsyncSession = Depends(get_async_session)):
+                             session: AsyncSession = Depends(get_async_session)):
     try:
         statement = update(response).where(response.c.id == id_).values(answer=answer)
         await session.execute(statement)
@@ -80,8 +80,3 @@ async def answer_to_response(id_: int, answer: str = Body(..., embed=True),
             status_code=500,
             detail=error.args
         )
-
-
-# @response_router.get("")
-# async def get_responses_by_applicant()
-
