@@ -1,14 +1,14 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 import sqlalchemy.exc
-import json
 
 from src.app.database import get_async_session
 from src.app.companies.schemas import *
 from src.app.companies.models import *
 
-
 from sqlalchemy import insert, select, update
+
+from src.app.users.models import user, city
 
 company_router = APIRouter(
     prefix="/company",
@@ -17,77 +17,83 @@ company_router = APIRouter(
 
 
 @company_router.post("/{id_}/vacancy")
-async def post_vacancy(id_:int,item:Vacancies_input,session: AsyncSession = Depends(get_async_session)):
-    #query - SELECT
-    #stmt - запрос на удаление/вставку
+async def create_vacancy(id_: int, item: VacancyCreate, session: AsyncSession = Depends(get_async_session)):
     try:
-        stmt = insert(vacancy).values(**item.dict(),company_id = id_).returning()
-        result = await session.execute(stmt)
+        statement = insert(vacancy).values(**item.dict(), company_id=id_).returning(vacancy)
+        result = await session.execute(statement)
+        vacancy_data = dict(result.mappings().one())
+
+        query = select(profile).where(profile.c.id == id_)
+        result = await session.execute(query)
+        profile_data = dict(result.mappings().one())
+
+        query = select(city).where(city.c.id == profile_data["city_id"])
+        result = await session.execute(query)
+        city_ = dict(result.mappings().one())
+
+        profile_data.pop("city_id")
+        profile_data["city"] = city_
+
+        vacancy_data.pop("company_id")
+        vacancy_data["company"] = profile_data
+
         await session.commit()
         return {
-            "status":"success",
-            "data" : None,
-            "details": None
+            "status_code": 200,
+            "data": vacancy_data,
         }
-    except sqlalchemy.exc.ProgrammingError as e:
-         return {
-             "status": "error - id does not exist",
-             "data": None,
-             "details": e.args
-         }
-    except Exception as e:
-         return {
-             "status": "error",
-             "data": None,
-             "details": e.args
-         }
+    except sqlalchemy.exc.ProgrammingError:
+        raise HTTPException(
+            status_code=400,
+            detail="Id does not exist"
+        )
+    except Exception as error:
+        raise HTTPException(
+            status_code=500,
+            detail=error.args
+        )
 
 
 @company_router.get("/vacancy/{id_}")
-async def get_vacancy(id_:int,session: AsyncSession = Depends(get_async_session)):
+async def get_vacancy(id_: int, session: AsyncSession = Depends(get_async_session)):
     try:
         query = select(vacancy).where(vacancy.c.id == id_)
-        res = await session.execute(query)
+        result = await session.execute(query)
+        vacancy_data = dict(result.mappings().one())
+
         return {
-            "status": "success",
-            "data": res.mappings().all(),
-            "details": None
+            "status_code": 200,
+            "data": vacancy_data,
         }
-    except sqlalchemy.exc.ProgrammingError as e:
-        return {
-            "status": "error - id does not exist",
-            "data": None,
-            "details": e.args
-        }
-    except Exception as e:
-        return {
-            "status": "some error",
-            "data": None,
-            "details": e.args
-        }
+    except sqlalchemy.exc.ProgrammingError:
+        return HTTPException(
+            status_code=400,
+            detail="Id does not exist"
+        )
+    except Exception as error:
+        return HTTPException(
+            status_code=500,
+            detail=error.args
+        )
+
 
 @company_router.put("/vacancy/{id_}")
-async def get_vacancy(id_:int,item:Vacancies_input,session: AsyncSession = Depends(get_async_session)):
+async def update_vacancy(id_: int, item: VacancyUpdate, session: AsyncSession = Depends(get_async_session)):
     try:
-        stmt = (
-            update(vacancy).where(vacancy.c.id == id_).values(**item.dict())
-        )
-        result = await session.execute(stmt)
+        statement = update(vacancy).where(vacancy.c.id == id_).values(**item.dict())
+        result = await session.execute(statement)
+
         await session.commit()
         return {
-            "status":"success",
-            "data" : None,
-            "details": None
+            "status_code": "200"
         }
-    except sqlalchemy.exc.ProgrammingError as e:
-         return {
-             "status": "error - id does not exist",
-             "data": None,
-             "details": e.args
-         }
-    except Exception as e:
-         return {
-             "status": "some error",
-             "data": None,
-             "details": e.args
-         }
+    except sqlalchemy.exc.ProgrammingError:
+        return HTTPException(
+            status_code=400,
+            detail="Id does not exist"
+        )
+    except Exception as error:
+        return HTTPException(
+            status_code=500,
+            detail=error.args
+        )
