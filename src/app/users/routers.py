@@ -52,7 +52,7 @@ async def add_user(user_: User, session: AsyncSession = Depends(get_async_sessio
 
         await session.commit()
         return {
-            "status": 200,
+            "status_code": 200,
             "data": user_data
         }
     except HTTPException:
@@ -69,9 +69,48 @@ async def add_user(user_: User, session: AsyncSession = Depends(get_async_sessio
         )
 
 
-@users_router.get("/test")
-def test():
-    pass
+@users_router.post("/login")
+async def login(user_: User, session: AsyncSession = Depends(get_async_session)):
+    try:
+        assert user_.role in ["applicant", "company", "recruiter"]
+
+        query = select(user).where(user.c.login == user_.login and user.c.role == user_.role)
+        result = await session.execute(query)
+        data = dict(result.mappings().one())
+        if data:
+            query = select(profile).where(profile.c.id == data["profile_id"])
+            result = await session.execute(query)
+            profile_ = dict(result.mappings().one())
+
+            query = select(city).where(city.c.id == profile_["city_id"])
+            result = await session.execute(query)
+            city_ = dict(result.mappings().one())
+
+            profile_.pop("city_id")
+            profile_["city"] = city_
+
+            data.pop("profile_id")
+            data["profile"] = profile_
+            return {
+                "status_code": 200,
+                "data": data
+            }
+        raise HTTPException(
+            status_code=400,
+            detail="User not found",
+        )
+    except HTTPException:
+        raise
+    except AssertionError:
+        raise HTTPException(
+            status_code=400,
+            detail="Incorrect role"
+        )
+    except Exception as error:
+        raise HTTPException(
+            status_code=500,
+            detail=error.args
+        )
 
 
 @users_router.get("/profile")
