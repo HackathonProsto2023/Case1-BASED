@@ -142,3 +142,29 @@ async def delete_vacancy(id_: int, session: AsyncSession = Depends(get_async_ses
             status_code=500,
             detail=error.args
         )
+
+@company_router.get("/{id_}/vacancies")
+async def get_vacancy_to_company(company_id_: int, session: AsyncSession = Depends(get_async_session)):
+    try:
+        query = select(vacancy).where(vacancy.c.company_id == company_id_)
+        result = await session.execute(query)
+        vacancy_data = result.mappings().all()
+        if not vacancy_data:
+            HTTPException(
+                status_code=400,
+                detail="Vacancy not found"
+            )
+        return {
+            "status_code": 200,
+            "data": vacancy_data,
+        }
+    except sqlalchemy.exc.ProgrammingError:
+        return HTTPException(
+            status_code=400,
+            detail="Id does not exist"
+        )
+    except Exception as error:
+        return HTTPException(
+            status_code=500,
+            detail=error.args
+        )
