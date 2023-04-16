@@ -48,7 +48,7 @@ async def add_skill(skill_name: str, session: AsyncSession = Depends(get_async_s
 
 @skills_router.post("/applicant", status_code=200)
 @skills_router.post("/vacancy/", status_code=200)
-async def add_vacancy_skill(skill_: SkillChanging, role: str = Body(..., embed=True),
+async def add_key_skill(skill_: SkillChanging, role: str = Body(..., embed=True),
                             session: AsyncSession = Depends(get_async_session)):
     try:
         assert role in ["applicant", "company", "recruiter"]
